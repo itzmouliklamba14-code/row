@@ -22,7 +22,7 @@
 .topbar {
   position: sticky; top: 0; z-index: 40;
   display: flex; gap: 6px;
-  padding: max(10px, env(safe-area-inset-top)) 14px 10px;
+  padding: max(14px, env(safe-area-inset-top)) 14px 10px;
   /* Fully opaque so each page's body background can't bleed through
      and tint the bar a different color. Matches the dashboard's base
      dark background so the bar feels continuous with the page chrome. */
