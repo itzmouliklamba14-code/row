@@ -17,7 +17,7 @@
     if (!SUPABASE_URL || !SUPABASE_KEY) return;
     if (SUPABASE_URL.indexOf('PASTE-') === 0 || SUPABASE_KEY.indexOf('PASTE-') === 0) return;
 
-    let supa = null, pushTimer = null, suppressSync = false, lastSyncedJson = null;
+    let supa = null, pushTimer = null, pullTimer = null, suppressSync = false, lastSyncedJson = null;
 
     function matches(k) {
       if (!k) return false;
@@ -85,6 +85,17 @@
         if (!error) lastSyncedJson = json;
       } catch (e) {}
     }
+    async function pullNow() {
+      if (!supa) return;
+      try {
+        const { data, error } = await supa.from('app_state').select('data').eq('key', appKey).maybeSingle();
+        if (error || !data || !data.data) return;
+        const incoming = JSON.stringify(data.data);
+        if (incoming === lastSyncedJson) return;
+        lastSyncedJson = incoming;
+        applyRemote(data.data);
+      } catch (e) {}
+    }
     function schedulePush() { clearTimeout(pushTimer); pushTimer = setTimeout(pushNow, 250); }
     function flushOnUnload() {
       const state = collect();
@@ -127,6 +138,7 @@
           applyRemote(payload.new.data);
         })
         .subscribe();
+      pullTimer = setInterval(pullNow, 5000);
     })();
     window.addEventListener('beforeunload', flushOnUnload);
     window.addEventListener('pagehide', flushOnUnload);
