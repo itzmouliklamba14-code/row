@@ -1,4 +1,4 @@
-const CACHE_NAME = 'private-dashboard-v4';
+const CACHE_NAME = 'private-dashboard-v5';
 const APP_SHELL = [
   './',
   './index.html',
