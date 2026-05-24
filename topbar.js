@@ -82,6 +82,140 @@
   font-size: 20px; line-height: 1;
   filter: grayscale(100%) brightness(1.4); opacity: 0.85;
 }
+.topbar-notify-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.04);
+  color: #FAFAFA;
+  border-radius: 12px;
+  font-size: 18px; line-height: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+.topbar-notify-btn:hover { background: rgba(255, 255, 255, 0.08); }
+.topbar-notify-btn.is-on {
+  border-color: rgba(107, 227, 164, 0.25);
+  background: rgba(107, 227, 164, 0.10);
+}
+.topbar-notify-btn.is-blocked {
+  border-color: rgba(255, 107, 107, 0.25);
+  background: rgba(255, 107, 107, 0.08);
+}
+.notify-modal-bg {
+  position: fixed; inset: 0; z-index: 80;
+  display: none; align-items: center; justify-content: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.notify-modal-bg.show { display: flex; }
+.notify-modal {
+  width: min(430px, 100%);
+  padding: 18px;
+  border-radius: 16px;
+  background: rgba(12, 12, 14, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.56);
+  color: #FAFAFA;
+}
+.notify-modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin-bottom: 14px;
+}
+.notify-modal-title {
+  margin: 0;
+  font-size: 17px; font-weight: 750;
+  letter-spacing: 0;
+}
+.notify-close {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #FAFAFA;
+  font-size: 22px; line-height: 1;
+  cursor: pointer;
+}
+.notify-status {
+  min-height: 18px;
+  margin: 0 0 12px;
+  color: rgba(250, 250, 250, 0.68);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.notify-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.notify-label {
+  display: grid;
+  gap: 3px;
+  font-size: 14px;
+  color: #FAFAFA;
+}
+.notify-label small {
+  color: rgba(250, 250, 250, 0.55);
+  font-size: 11px;
+}
+.notify-switch {
+  appearance: none;
+  width: 46px; height: 26px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.16s;
+}
+.notify-switch::after {
+  content: '';
+  position: absolute; top: 3px; left: 3px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  transition: transform 0.16s;
+}
+.notify-switch:checked { background: rgba(107, 227, 164, 0.58); }
+.notify-switch:checked::after { transform: translateX(20px); }
+.notify-input {
+  width: 112px;
+  min-height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.26);
+  color: #FAFAFA;
+  padding: 0 10px;
+  font: inherit;
+  font-size: 13px;
+}
+.notify-actions {
+  display: flex; gap: 8px; justify-content: flex-end;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.notify-action {
+  min-height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #FAFAFA;
+  padding: 0 13px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.notify-action.primary {
+  border-color: rgba(107, 227, 164, 0.24);
+  background: rgba(107, 227, 164, 0.16);
+}
 .bottombar {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
   display: flex; justify-content: space-around; align-items: stretch;
@@ -118,6 +252,7 @@ body.has-bottombar {
   .topbar-water-add { width: 40px; font-size: 18px; }
   .topbar-finance-btn { width: 40px; height: 38px; }
   .topbar-finance-icon { font-size: 18px; }
+  .topbar-notify-btn { width: 40px; height: 38px; font-size: 17px; }
   .bottombar-tab-icon { font-size: 22px; }
   .bottombar-tab { font-size: 10px; }
 }
@@ -160,7 +295,43 @@ body.topbar-modal-open { overflow: hidden; touch-action: none; }
   <a href="finance.html" class="topbar-finance-btn" id="topbarFinance" aria-label="Finance">
     <span class="topbar-finance-icon">📊</span>
   </a>
+  <button class="topbar-notify-btn" id="topbarNotify" aria-label="Notifications" type="button">🔔</button>
 </header>`;
+
+  const notifyModalHtml = `
+<div class="notify-modal-bg" id="notifyModal" aria-hidden="true">
+  <section class="notify-modal" role="dialog" aria-modal="true" aria-labelledby="notifyTitle">
+    <div class="notify-modal-head">
+      <h2 class="notify-modal-title" id="notifyTitle">Notifications</h2>
+      <button class="notify-close" id="notifyClose" type="button" aria-label="Close">×</button>
+    </div>
+    <p class="notify-status" id="notifyStatus"></p>
+    <label class="notify-row">
+      <span class="notify-label">Enable notifications<small>Stored only in this browser</small></span>
+      <input class="notify-switch" id="notifyEnabled" type="checkbox">
+    </label>
+    <label class="notify-row">
+      <span class="notify-label">Water reminders<small>Only while the dashboard is running</small></span>
+      <input class="notify-switch" id="notifyWater" type="checkbox">
+    </label>
+    <label class="notify-row">
+      <span class="notify-label">Water interval<small>Minutes between reminders</small></span>
+      <input class="notify-input" id="notifyWaterMinutes" type="number" min="30" max="360" step="15">
+    </label>
+    <label class="notify-row">
+      <span class="notify-label">Daily check-in<small>Goals, health, and fitness</small></span>
+      <input class="notify-switch" id="notifyDaily" type="checkbox">
+    </label>
+    <label class="notify-row">
+      <span class="notify-label">Check-in time<small>Your device time</small></span>
+      <input class="notify-input" id="notifyDailyTime" type="time">
+    </label>
+    <div class="notify-actions">
+      <button class="notify-action" id="notifyTest" type="button">Test</button>
+      <button class="notify-action primary" id="notifySave" type="button">Save</button>
+    </div>
+  </section>
+</div>`;
 
   const bottombarHtml = `
 <nav class="bottombar" id="bottombar" role="navigation" aria-label="Main tabs">
@@ -203,6 +374,9 @@ body.topbar-modal-open { overflow: hidden; touch-action: none; }
     const bottomWrap = document.createElement('div');
     bottomWrap.innerHTML = bottombarHtml.trim();
     document.body.appendChild(bottomWrap.firstChild);
+    const modalWrap = document.createElement('div');
+    modalWrap.innerHTML = notifyModalHtml.trim();
+    document.body.appendChild(modalWrap.firstChild);
     const active = currentPageKey();
     document.querySelectorAll('.bottombar-tab').forEach((t) => {
       t.classList.toggle('active', t.getAttribute('data-page') === active);
@@ -288,6 +462,21 @@ body.topbar-modal-open { overflow: hidden; touch-action: none; }
       );
     } catch (e) {}
   }
+  async function pushNotifyMergedToSupabase(localNotify) {
+    if (!window.supabase || !TOPBAR_SUPABASE_URL || !TOPBAR_SUPABASE_KEY) return;
+    if (TOPBAR_SUPABASE_URL.indexOf('PASTE-') === 0) return;
+    try {
+      const supa = window.supabase.createClient(TOPBAR_SUPABASE_URL, TOPBAR_SUPABASE_KEY);
+      const { data } = await supa
+        .from('app_state').select('data').eq('key', 'health').maybeSingle();
+      const current = (data && data.data) || {};
+      const merged = Object.assign({}, current, { [NOTIFY_KEY]: localNotify });
+      await supa.from('app_state').upsert(
+        { key: 'health', data: merged, updated_at: new Date().toISOString() },
+        { onConflict: 'key' }
+      );
+    } catch (e) {}
+  }
   function addWater() {
     let state = null;
     try { state = JSON.parse(localStorage.getItem('po_water_v1')); } catch (e) {}
@@ -300,6 +489,173 @@ body.topbar-modal-open { overflow: hidden; touch-action: none; }
     const btn = document.getElementById('topbarWaterAdd');
     if (btn) { btn.classList.add('flash'); setTimeout(() => btn.classList.remove('flash'), 220); }
     pushWaterMergedToSupabase(state);
+  }
+
+  const NOTIFY_KEY = 'private_dashboard_notifications_v1';
+  let notifyTimer = null;
+
+  function defaultNotifyState() {
+    return {
+      enabled: false,
+      water: true,
+      waterMinutes: 120,
+      daily: true,
+      dailyTime: '20:30',
+      lastWaterAt: 0,
+      dailySentKey: ''
+    };
+  }
+  function getNotifyState() {
+    let state = null;
+    try { state = JSON.parse(localStorage.getItem(NOTIFY_KEY)); } catch (e) {}
+    return Object.assign(defaultNotifyState(), state && typeof state === 'object' ? state : {});
+  }
+  function saveNotifyState(next) {
+    const state = Object.assign(getNotifyState(), next || {});
+    state.waterMinutes = Math.min(360, Math.max(30, Number(state.waterMinutes) || 120));
+    try { localStorage.setItem(NOTIFY_KEY, JSON.stringify(state)); } catch (e) {}
+    pushNotifyMergedToSupabase(state);
+    syncNotifyButton();
+    startNotificationLoop();
+    return state;
+  }
+  function notificationStatusText() {
+    if (!('Notification' in window)) return 'Notifications are not available in this browser.';
+    if (Notification.permission === 'denied') return 'Notifications are blocked in browser settings.';
+    if (!window.RowPWA || !window.RowPWA.isInstallableContext) {
+      return 'Run from localhost or a private HTTPS link for app install and service worker notifications.';
+    }
+    if (Notification.permission === 'granted') return 'Notifications are ready.';
+    return 'Tap Save to allow notifications.';
+  }
+  function syncNotifyButton() {
+    const btn = document.getElementById('topbarNotify');
+    if (!btn) return;
+    const state = getNotifyState();
+    btn.classList.toggle('is-on', !!state.enabled && 'Notification' in window && Notification.permission === 'granted');
+    btn.classList.toggle('is-blocked', 'Notification' in window && Notification.permission === 'denied');
+  }
+  function fillNotifyForm() {
+    const state = getNotifyState();
+    const enabled = document.getElementById('notifyEnabled');
+    const water = document.getElementById('notifyWater');
+    const waterMinutes = document.getElementById('notifyWaterMinutes');
+    const daily = document.getElementById('notifyDaily');
+    const dailyTime = document.getElementById('notifyDailyTime');
+    const status = document.getElementById('notifyStatus');
+    if (enabled) enabled.checked = !!state.enabled;
+    if (water) water.checked = !!state.water;
+    if (waterMinutes) waterMinutes.value = state.waterMinutes;
+    if (daily) daily.checked = !!state.daily;
+    if (dailyTime) dailyTime.value = state.dailyTime;
+    if (status) status.textContent = notificationStatusText();
+  }
+  function setNotifyModal(open) {
+    const modal = document.getElementById('notifyModal');
+    if (!modal) return;
+    modal.classList.toggle('show', !!open);
+    modal.setAttribute('aria-hidden', open ? 'false' : 'true');
+    document.body.classList.toggle('topbar-modal-open', !!open);
+    if (open) fillNotifyForm();
+  }
+  async function requestNotificationPermission() {
+    if (!('Notification' in window)) return false;
+    if (Notification.permission === 'granted') return true;
+    if (Notification.permission === 'denied') return false;
+    const result = await Notification.requestPermission();
+    return result === 'granted';
+  }
+  function sendPrivateNotification(title, body, tag) {
+    if (!window.RowPWA || typeof window.RowPWA.showNotification !== 'function') {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification(title, { body, icon: 'icon-192.png', tag: tag || 'private-dashboard' });
+        return true;
+      }
+      return false;
+    }
+    window.RowPWA.showNotification(title, {
+      body,
+      tag: tag || 'private-dashboard',
+      data: { url: 'index.html' }
+    });
+    return true;
+  }
+  function minutesSinceMidnight(d) {
+    return d.getHours() * 60 + d.getMinutes();
+  }
+  function timeToMinutes(value) {
+    const parts = String(value || '20:30').split(':');
+    return (Number(parts[0]) || 0) * 60 + (Number(parts[1]) || 0);
+  }
+  function checkNotificationReminders() {
+    const state = getNotifyState();
+    if (!state.enabled || !('Notification' in window) || Notification.permission !== 'granted') return;
+    const now = new Date();
+    const hour = now.getHours();
+    const todayKey = calendarDateKey();
+
+    if (state.water && hour >= 8 && hour <= 22) {
+      const w = getWaterProgress();
+      const due = !state.lastWaterAt || Date.now() - state.lastWaterAt >= state.waterMinutes * 60 * 1000;
+      if (w.total && w.done < w.total && due) {
+        sendPrivateNotification('Water check', w.done + '/' + w.total + ' logged today.', 'private-dashboard-water');
+        saveNotifyState({ lastWaterAt: Date.now() });
+      }
+    }
+
+    if (state.daily && state.dailySentKey !== todayKey && minutesSinceMidnight(now) >= timeToMinutes(state.dailyTime)) {
+      sendPrivateNotification('Daily check-in', 'Review goals, health, and training for today.', 'private-dashboard-daily');
+      saveNotifyState({ dailySentKey: todayKey });
+    }
+  }
+  function startNotificationLoop() {
+    if (notifyTimer) clearInterval(notifyTimer);
+    notifyTimer = setInterval(checkNotificationReminders, 60 * 1000);
+    checkNotificationReminders();
+  }
+  async function saveNotifyForm() {
+    const wantsEnabled = !!(document.getElementById('notifyEnabled') || {}).checked;
+    let enabled = wantsEnabled;
+    if (wantsEnabled) enabled = await requestNotificationPermission();
+    saveNotifyState({
+      enabled,
+      water: !!(document.getElementById('notifyWater') || {}).checked,
+      waterMinutes: (document.getElementById('notifyWaterMinutes') || {}).value,
+      daily: !!(document.getElementById('notifyDaily') || {}).checked,
+      dailyTime: (document.getElementById('notifyDailyTime') || {}).value || '20:30'
+    });
+    fillNotifyForm();
+  }
+  async function sendTestNotification() {
+    const ok = await requestNotificationPermission();
+    if (!ok) {
+      fillNotifyForm();
+      return;
+    }
+    saveNotifyState({ enabled: true });
+    sendPrivateNotification('Private Dashboard', 'Notifications are working.', 'private-dashboard-test');
+    fillNotifyForm();
+  }
+  function bindNotifyControls() {
+    const btn = document.getElementById('topbarNotify');
+    const close = document.getElementById('notifyClose');
+    const save = document.getElementById('notifySave');
+    const test = document.getElementById('notifyTest');
+    const modal = document.getElementById('notifyModal');
+    if (btn) btn.addEventListener('click', () => setNotifyModal(true));
+    if (close) close.addEventListener('click', () => setNotifyModal(false));
+    if (save) save.addEventListener('click', saveNotifyForm);
+    if (test) test.addEventListener('click', sendTestNotification);
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) setNotifyModal(false);
+      });
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setNotifyModal(false);
+    });
+    syncNotifyButton();
+    startNotificationLoop();
   }
 
   function blockGesture(e) { e.preventDefault(); }
@@ -315,7 +671,7 @@ body.topbar-modal-open { overflow: hidden; touch-action: none; }
     }, { passive: false });
   }
   function startModalLock() {
-    const MODAL_SELECTORS = ['.modal-bg', '.po-modal-bg', '.wt-overlay', '.wt-viewer', '.wt-cam'];
+    const MODAL_SELECTORS = ['.modal-bg', '.po-modal-bg', '.wt-overlay', '.wt-viewer', '.wt-cam', '.notify-modal-bg'];
     function anyOpen() {
       for (const sel of MODAL_SELECTORS) {
         const els = document.querySelectorAll(sel);
@@ -335,6 +691,7 @@ body.topbar-modal-open { overflow: hidden; touch-action: none; }
     injectStyleAndHTML();
     const btn = document.getElementById('topbarWaterAdd');
     if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); addWater(); });
+    bindNotifyControls();
     render();
     lockGestures();
     startModalLock();
