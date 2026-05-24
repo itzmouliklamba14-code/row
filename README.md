@@ -57,6 +57,7 @@ Verify after deployment:
 |---|---|
 | [index.html](index.html) | Goals tracker (Day Ring, Goal Ticker, To Do list) — the home page |
 | [health.html](health.html) | Supplement / daily stack tracker |
+| [nutrition.html](nutrition.html) | Nutrition, macros, micronutrients, food log, targets, and personal food database |
 | [po-water.html](po-water.html) | Water intake tracker |
 | [finance.html](finance.html) | Finances |
 | [gym.html](gym.html) | Progressive overload gym tracker |

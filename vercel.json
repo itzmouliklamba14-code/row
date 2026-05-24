@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/nutrition", "destination": "/nutrition.html" }
+  ]
+}

@@ -1,8 +1,9 @@
-const CACHE_NAME = 'private-dashboard-v1';
+const CACHE_NAME = 'private-dashboard-v4';
 const APP_SHELL = [
   './',
   './index.html',
   './health.html',
+  './nutrition.html',
   './po-water.html',
   './gym.html',
   './finance.html',

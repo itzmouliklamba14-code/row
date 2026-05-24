@@ -1,7 +1,7 @@
 {
   "name": "Private Dashboard",
   "short_name": "Dashboard",
-  "description": "A private personal dashboard for goals, health, finance, and fitness.",
+  "description": "A private personal dashboard for goals, health, nutrition, finance, and fitness.",
   "start_url": "index.html",
   "scope": "./",
   "display": "standalone",

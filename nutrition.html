@@ -1,0 +1,2187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070708">
+<meta name="color-scheme" content="dark">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Nutrition</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="pwa.js" defer></script>
+<script src="topbar.js" defer></script>
+<style>
+:root {
+  --bg: #070708;
+  --surface: #111113;
+  --surface-2: #171719;
+  --surface-3: #1d1d20;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text-1: #f8f8f7;
+  --text-2: rgba(248, 248, 247, 0.72);
+  --text-3: rgba(248, 248, 247, 0.48);
+  --muted: rgba(248, 248, 247, 0.30);
+  --green: #74d99f;
+  --cyan: #7dd3fc;
+  --amber: #f5c86b;
+  --coral: #ff8a70;
+  --violet: #bda8ff;
+  --font: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background:
+    linear-gradient(180deg, #0b0b0d 0%, var(--bg) 320px),
+    var(--bg);
+  color: var(--text-2);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+button, input, select {
+  font: inherit;
+}
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+input, select {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  padding: 10px 11px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.22);
+  color: var(--text-1);
+  outline: none;
+}
+input:focus, select:focus {
+  border-color: rgba(125, 211, 252, 0.52);
+  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.10);
+}
+input::placeholder {
+  color: rgba(248, 248, 247, 0.34);
+}
+input[type="number"] {
+  font-variant-numeric: tabular-nums;
+}
+label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.label-text {
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.nutrition-shell {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: max(26px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-left)) calc(42px + env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-right));
+}
+.nutrition-shell * { min-width: 0; }
+.page-head {
+  display: grid;
+  gap: 10px;
+  margin: 4px 0 18px;
+}
+.page-kicker,
+.section-kicker {
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.page-title {
+  margin: 0;
+  color: var(--text-1);
+  font-size: clamp(26px, 8vw, 42px);
+  font-weight: 780;
+  letter-spacing: 0;
+  line-height: 1;
+}
+.page-subline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--text-3);
+  font-size: 13px;
+}
+.sync-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 26px;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-2);
+  background: rgba(255, 255, 255, 0.035);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.sync-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--amber);
+}
+.sync-pill[data-mode="cloud"] .sync-dot { background: var(--green); }
+.sync-pill[data-mode="local"] .sync-dot { background: var(--amber); }
+.section {
+  margin-top: 18px;
+}
+.section-title {
+  margin: 0 2px 10px;
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.022)),
+    var(--surface);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.30);
+}
+.card-pad {
+  padding: 15px;
+}
+.card-title {
+  margin: 0;
+  color: var(--text-1);
+  font-size: 16px;
+  font-weight: 760;
+  letter-spacing: 0;
+}
+.muted {
+  color: var(--text-3);
+}
+.today-card {
+  display: grid;
+  gap: 16px;
+}
+.today-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 14px;
+}
+.today-date {
+  margin: 5px 0 4px;
+  color: var(--text-1);
+  font-size: clamp(22px, 7vw, 34px);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.02;
+}
+.today-meta {
+  margin: 0;
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.calorie-stat {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+  padding: 10px 12px;
+  border: 1px solid rgba(116, 217, 159, 0.20);
+  border-radius: 8px;
+  background: rgba(116, 217, 159, 0.08);
+}
+.calorie-stat strong {
+  color: var(--text-1);
+  font-family: var(--font-mono);
+  font-size: 26px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.calorie-stat span {
+  color: rgba(248, 248, 247, 0.58);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.progress-list {
+  display: grid;
+  gap: 11px;
+}
+.progress-row {
+  display: grid;
+  gap: 7px;
+}
+.progress-copy {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--text-2);
+  font-size: 13px;
+}
+.progress-copy strong {
+  color: var(--text-1);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 760;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.progress-track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  transition: width 0.18s ease;
+}
+.progress-fill.protein { background: linear-gradient(90deg, var(--green), #a7f3d0); }
+.progress-fill.carbs { background: linear-gradient(90deg, var(--amber), #f8d987); }
+.progress-fill.fat { background: linear-gradient(90deg, var(--coral), #ffb49f); }
+.progress-fill.limit-over { background: linear-gradient(90deg, var(--coral), #ff5f7a); }
+.subhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 2px;
+}
+.subhead h3 {
+  margin: 0;
+  color: var(--text-1);
+  font-size: 14px;
+  font-weight: 760;
+}
+.subhead span {
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+.micro-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 9px;
+}
+.micro-row {
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+}
+.micro-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+}
+.micro-top b {
+  color: var(--text-1);
+  font-weight: 720;
+}
+.micro-top span {
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.grid-two {
+  display: grid;
+  gap: 18px;
+}
+.log-card,
+.add-card,
+.target-card,
+.history-card,
+.database-card,
+.tools-card {
+  display: grid;
+  gap: 14px;
+}
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.count-pill {
+  flex: 0 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 8px;
+  color: var(--text-3);
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 760;
+  font-variant-numeric: tabular-nums;
+}
+.food-log-list,
+.history-list,
+.template-list {
+  display: grid;
+  gap: 9px;
+}
+.food-entry,
+.template-entry,
+.history-entry {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.16);
+}
+.food-entry {
+  display: grid;
+  gap: 11px;
+  padding: 12px;
+}
+.food-entry-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+.food-name,
+.template-name {
+  color: var(--text-1);
+  font-size: 14px;
+  font-weight: 760;
+}
+.food-meta,
+.template-meta,
+.history-meta {
+  margin-top: 4px;
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+.entry-actions,
+.template-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+.icon-btn,
+.small-btn,
+.primary-btn,
+.ghost-btn,
+.danger-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-1);
+  background: rgba(255, 255, 255, 0.045);
+  cursor: pointer;
+  font-weight: 720;
+}
+.icon-btn {
+  width: 40px;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+}
+.small-btn {
+  min-height: 34px;
+  padding: 0 10px;
+  color: var(--text-2);
+  font-size: 12px;
+}
+.primary-btn {
+  min-height: 42px;
+  padding: 0 13px;
+  border-color: rgba(116, 217, 159, 0.28);
+  background: rgba(116, 217, 159, 0.14);
+}
+.ghost-btn {
+  min-height: 42px;
+  padding: 0 13px;
+  color: var(--text-2);
+}
+.danger-btn {
+  min-height: 34px;
+  padding: 0 10px;
+  border-color: rgba(255, 138, 112, 0.22);
+  color: #ffd2c9;
+  background: rgba(255, 138, 112, 0.08);
+  font-size: 12px;
+}
+.icon-btn:hover,
+.small-btn:hover,
+.ghost-btn:hover {
+  background: rgba(255, 255, 255, 0.075);
+}
+.primary-btn:hover {
+  background: rgba(116, 217, 159, 0.19);
+}
+.danger-btn:hover {
+  background: rgba(255, 138, 112, 0.13);
+}
+.amount-row {
+  display: grid;
+  grid-template-columns: minmax(90px, 150px) 1fr;
+  align-items: end;
+  gap: 10px;
+}
+.amount-input {
+  min-height: 38px;
+}
+.micro-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-3);
+  background: rgba(255, 255, 255, 0.025);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.add-form-grid,
+.target-grid,
+.template-form-grid,
+.quick-grid,
+.tools-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+.add-search-wrap {
+  position: relative;
+  display: grid;
+  gap: 8px;
+}
+.search-results {
+  display: grid;
+  gap: 7px;
+}
+.search-result {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.032);
+  color: var(--text-2);
+  text-align: left;
+  cursor: pointer;
+}
+.search-result.active {
+  border-color: rgba(125, 211, 252, 0.46);
+  background: rgba(125, 211, 252, 0.08);
+}
+.search-result strong {
+  color: var(--text-1);
+  font-size: 13px;
+}
+.search-result span {
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+.quick-add {
+  display: grid;
+  gap: 11px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.form-error,
+.form-status {
+  min-height: 18px;
+  color: var(--coral);
+  font-size: 12px;
+}
+.form-status {
+  color: var(--text-3);
+}
+.form-status.good {
+  color: var(--green);
+}
+.target-row {
+  display: grid;
+  grid-template-columns: 1fr minmax(92px, 130px);
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-top: 1px solid var(--border);
+}
+.target-row:first-child {
+  border-top: 0;
+}
+.target-copy strong {
+  display: block;
+  color: var(--text-1);
+  font-size: 13px;
+  font-weight: 720;
+}
+.target-copy span {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.history-entry {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 11px 12px;
+}
+.history-date {
+  color: var(--text-1);
+  font-size: 13px;
+  font-weight: 720;
+}
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 26px;
+  padding: 0 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-3);
+  background: rgba(255, 255, 255, 0.025);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 780;
+  text-transform: uppercase;
+}
+.status-tag.hit {
+  border-color: rgba(116, 217, 159, 0.25);
+  color: var(--green);
+  background: rgba(116, 217, 159, 0.08);
+}
+.template-toolbar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+.template-entry {
+  display: grid;
+  gap: 11px;
+  padding: 12px;
+}
+.template-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+.template-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.source-badge {
+  border-color: rgba(125, 211, 252, 0.18);
+  color: rgba(125, 211, 252, 0.82);
+}
+.favorite-on {
+  border-color: rgba(245, 200, 107, 0.30);
+  color: var(--amber);
+  background: rgba(245, 200, 107, 0.08);
+}
+.template-form {
+  display: grid;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.template-form-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.template-form-head h3 {
+  margin: 0;
+  color: var(--text-1);
+  font-size: 14px;
+  font-weight: 760;
+}
+.template-actions-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 9px;
+}
+.tool-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+}
+.tool-card h3 {
+  margin: 0;
+  color: var(--text-1);
+  font-size: 14px;
+}
+.tool-card p {
+  margin: 0;
+  color: var(--text-3);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.empty-state {
+  padding: 14px;
+  border: 1px dashed rgba(255, 255, 255, 0.13);
+  border-radius: 8px;
+  color: var(--text-3);
+  background: rgba(255, 255, 255, 0.022);
+  font-size: 13px;
+  text-align: center;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (min-width: 560px) {
+  .nutrition-shell {
+    padding-left: max(22px, env(safe-area-inset-left));
+    padding-right: max(22px, env(safe-area-inset-right));
+  }
+  .card-pad { padding: 18px; }
+  .micro-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .add-form-grid {
+    grid-template-columns: 1fr 120px auto;
+    align-items: end;
+  }
+  .quick-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .template-toolbar {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+  .template-form-grid,
+  .target-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .template-actions-row {
+    grid-template-columns: auto auto;
+    justify-content: start;
+  }
+}
+
+@media (min-width: 860px) {
+  .page-head {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+  .page-subline {
+    justify-content: flex-end;
+  }
+  .grid-two {
+    grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+    align-items: start;
+  }
+  .desktop-stack {
+    display: grid;
+    gap: 18px;
+  }
+  .micro-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .tools-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 430px) {
+  .nutrition-shell {
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+  }
+  .today-head {
+    grid-template-columns: 1fr;
+  }
+  .calorie-stat {
+    justify-items: start;
+  }
+  .food-entry-top,
+  .template-top,
+  .history-entry,
+  .amount-row {
+    grid-template-columns: 1fr;
+  }
+  .entry-actions,
+  .template-actions {
+    justify-content: flex-start;
+  }
+}
+</style>
+</head>
+<body>
+<main class="nutrition-shell">
+  <header class="page-head">
+    <div>
+      <div class="page-kicker">Nutrition</div>
+      <h1 class="page-title">Nutrition</h1>
+    </div>
+    <p class="page-subline">
+      <span id="storageStatus" class="sync-pill" data-mode="local"><span class="sync-dot"></span><span>Loading</span></span>
+      <span id="appDayLabel">App day resets at 04:00</span>
+    </p>
+  </header>
+
+  <section class="section" aria-labelledby="todayNutritionHeading">
+    <div class="card card-pad today-card">
+      <div class="today-head">
+        <div>
+          <div class="section-kicker" id="todayNutritionHeading">TODAY'S NUTRITION</div>
+          <h2 class="today-date" id="todayDateLabel">TODAY</h2>
+          <p class="today-meta" id="todayMeta">0 entries logged · 0 kcal so far</p>
+        </div>
+        <div class="calorie-stat" aria-label="Calories so far">
+          <strong id="todayCalories">0</strong>
+          <span>kcal so far</span>
+        </div>
+      </div>
+
+      <div class="progress-list" id="macroProgressList"></div>
+
+      <div class="subhead">
+        <h3>Micronutrients</h3>
+        <span>Daily totals</span>
+      </div>
+      <div class="micro-grid" id="microProgressGrid"></div>
+    </div>
+  </section>
+
+  <section class="section grid-two" aria-label="Food log and targets">
+    <div class="desktop-stack">
+      <div>
+        <h2 class="section-title">FOOD LOG</h2>
+        <div class="card card-pad log-card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">WHAT I ATE TODAY</h3>
+              <div class="food-meta" id="foodLogSummary">0 entries</div>
+            </div>
+            <span class="count-pill" id="foodLogCount">0</span>
+          </div>
+          <div class="food-log-list" id="foodLogList"></div>
+        </div>
+      </div>
+
+      <div class="card card-pad add-card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Add Food</h3>
+            <div class="food-meta" id="selectedFoodLabel">Search your food database</div>
+          </div>
+        </div>
+
+        <div class="add-form-grid">
+          <label class="add-search-wrap">
+            <span class="label-text">Food</span>
+            <input id="foodSearchInput" type="search" placeholder="Type to find a food..." autocomplete="off">
+          </label>
+          <label>
+            <span class="label-text">Amount</span>
+            <input id="foodAmountInput" type="number" min="0" step="0.1" placeholder="Amount" inputmode="decimal">
+          </label>
+          <button class="primary-btn" id="addSelectedFoodBtn" type="button">+ Add</button>
+        </div>
+        <div class="search-results" id="foodSearchResults"></div>
+        <button class="ghost-btn" id="createFromSearchBtn" type="button" hidden>Create new food</button>
+        <div class="form-status" id="addFoodStatus" aria-live="polite"></div>
+
+        <div class="quick-add">
+          <div class="subhead">
+            <h3>Quick add calories/macros</h3>
+            <span>One-off log</span>
+          </div>
+          <div class="quick-grid">
+            <label>
+              <span class="label-text">Name</span>
+              <input id="quickNameInput" type="text" placeholder="Quick add" autocomplete="off">
+            </label>
+            <label>
+              <span class="label-text">Calories</span>
+              <input id="quickCaloriesInput" type="number" min="0" step="1" inputmode="decimal">
+            </label>
+            <label>
+              <span class="label-text">Protein</span>
+              <input id="quickProteinInput" type="number" min="0" step="0.1" inputmode="decimal">
+            </label>
+            <label>
+              <span class="label-text">Carbs</span>
+              <input id="quickCarbsInput" type="number" min="0" step="0.1" inputmode="decimal">
+            </label>
+            <label>
+              <span class="label-text">Fat</span>
+              <input id="quickFatInput" type="number" min="0" step="0.1" inputmode="decimal">
+            </label>
+          </div>
+          <button class="ghost-btn" id="quickAddBtn" type="button">+ Quick add</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="desktop-stack">
+      <div>
+        <h2 class="section-title">DAILY TARGETS</h2>
+        <div class="card card-pad target-card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Daily Targets</h3>
+              <div class="food-meta">Autosaves on change</div>
+            </div>
+          </div>
+          <div class="target-grid" id="targetGrid"></div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="section-title">NUTRITION HISTORY</h2>
+        <div class="card card-pad history-card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Past 40 Days</h3>
+              <div class="food-meta">App-day totals</div>
+            </div>
+          </div>
+          <div class="history-list" id="historyList"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="foodDatabaseHeading">
+    <h2 class="section-title" id="foodDatabaseHeading">FOOD DATABASE</h2>
+    <div class="card card-pad database-card">
+      <div class="template-toolbar">
+        <label>
+          <span class="label-text">Search foods</span>
+          <input id="databaseSearchInput" type="search" placeholder="Search personal foods..." autocomplete="off">
+        </label>
+        <button class="ghost-btn" id="clearArchivedFilterBtn" type="button">Active foods</button>
+      </div>
+
+      <div class="template-list" id="templateList"></div>
+
+      <form class="template-form" id="templateForm" novalidate>
+        <input type="hidden" id="templateEditId">
+        <div class="template-form-head">
+          <h3 id="templateFormTitle">Add Food Template</h3>
+          <button class="small-btn" id="cancelEditTemplateBtn" type="button" hidden>Cancel edit</button>
+        </div>
+        <div class="template-form-grid">
+          <label>
+            <span class="label-text">Name</span>
+            <input id="templateNameInput" name="name" type="text" autocomplete="off" required>
+          </label>
+          <label>
+            <span class="label-text">Brand optional</span>
+            <input id="templateBrandInput" name="brand" type="text" autocomplete="off">
+          </label>
+          <label>
+            <span class="label-text">Barcode optional</span>
+            <input id="templateBarcodeInput" name="barcode" type="text" autocomplete="off" inputmode="numeric">
+          </label>
+          <label>
+            <span class="label-text">Serving size</span>
+            <input id="templateServingSizeInput" name="servingSize" type="number" min="0.1" step="0.1" inputmode="decimal" required>
+          </label>
+          <label>
+            <span class="label-text">Serving unit</span>
+            <input id="templateServingUnitInput" name="servingUnit" type="text" placeholder="g" autocomplete="off">
+          </label>
+          <label>
+            <span class="label-text">Calories</span>
+            <input id="templateCaloriesInput" name="calories" type="number" min="0" step="1" inputmode="decimal">
+          </label>
+          <label>
+            <span class="label-text">Protein</span>
+            <input id="templateProteinInput" name="protein" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label>
+            <span class="label-text">Carbs</span>
+            <input id="templateCarbsInput" name="carbs" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label>
+            <span class="label-text">Fat</span>
+            <input id="templateFatInput" name="fat" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label>
+            <span class="label-text">Sodium</span>
+            <input id="templateSodiumInput" name="sodium" type="number" min="0" step="1" inputmode="decimal">
+          </label>
+          <label>
+            <span class="label-text">Saturated Fat</span>
+            <input id="templateSaturatedFatInput" name="saturatedFat" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label>
+            <span class="label-text">Sugar</span>
+            <input id="templateSugarInput" name="sugar" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label>
+            <span class="label-text">Fiber</span>
+            <input id="templateFiberInput" name="fiber" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label>
+            <span class="label-text">Potassium</span>
+            <input id="templatePotassiumInput" name="potassium" type="number" min="0" step="1" inputmode="decimal">
+          </label>
+          <label>
+            <span class="label-text">Calcium</span>
+            <input id="templateCalciumInput" name="calcium" type="number" min="0" step="1" inputmode="decimal">
+          </label>
+          <label>
+            <span class="label-text">Iron</span>
+            <input id="templateIronInput" name="iron" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+          <label>
+            <span class="label-text">Vitamin C</span>
+            <input id="templateVitaminCInput" name="vitaminC" type="number" min="0" step="0.1" inputmode="decimal">
+          </label>
+        </div>
+        <div class="form-error" id="templateFormError" aria-live="polite"></div>
+        <div class="template-actions-row">
+          <button class="primary-btn" id="saveTemplateBtn" type="submit">+ Add to Database</button>
+          <button class="ghost-btn" id="resetTemplateFormBtn" type="button">Reset form</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="foodToolsHeading">
+    <h2 class="section-title" id="foodToolsHeading">FOOD TOOLS / BARCODE IMPORT</h2>
+    <div class="card card-pad tools-card">
+      <div class="tools-grid">
+        <article class="tool-card">
+          <div class="section-kicker">Barcode</div>
+          <h3>Scanner-ready templates</h3>
+          <p>Foods already store barcode, source, external id, and external source URL fields.</p>
+          <input id="barcodePrepInput" type="text" placeholder="Barcode staging field" inputmode="numeric" autocomplete="off">
+        </article>
+        <article class="tool-card">
+          <div class="section-kicker">Open Food Facts</div>
+          <h3>Import source prepared</h3>
+          <p>External results can become saved personal templates after an active selection.</p>
+          <button class="ghost-btn" type="button" disabled>Import later</button>
+        </article>
+        <article class="tool-card">
+          <div class="section-kicker">Imported Foods</div>
+          <h3>Local database remains primary</h3>
+          <p>Manual, barcode, external, imported, and quick-add source values are supported.</p>
+          <button class="ghost-btn" type="button" disabled>Map fields later</button>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  const SUPABASE_URL = 'https://zwpipvyaydrgbuvsmblk.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_oelEu8ooKls7yo3MQG8T6g_aI3AHwn2';
+  const APP_STATE_KEY = 'nutrition';
+  const STORAGE_KEY = 'nutrition_state_v1';
+  const APP_RESET_HOUR = 4;
+
+  const DEFAULT_TARGETS = {
+    calories: 2700,
+    protein: 160,
+    carbs: 300,
+    fat: 90,
+    sodium: 2300,
+    saturatedFat: 22,
+    sugar: 50,
+    fiber: 30,
+    potassium: 3500,
+    calcium: 1000,
+    iron: 12,
+    vitaminC: 90
+  };
+
+  const MACRO_ROWS = [
+    { key: 'calories', label: 'Calories', unit: 'kcal', decimals: 0, className: 'calories' },
+    { key: 'protein', label: 'Protein', unit: 'g', decimals: 1, className: 'protein' },
+    { key: 'carbs', label: 'Carbs', unit: 'g', decimals: 1, className: 'carbs' },
+    { key: 'fat', label: 'Fat', unit: 'g', decimals: 1, className: 'fat' }
+  ];
+
+  const MICRO_ROWS = [
+    { key: 'sodium', label: 'Sodium', unit: 'mg', type: 'limit' },
+    { key: 'saturatedFat', label: 'Saturated Fat', unit: 'g', type: 'limit' },
+    { key: 'sugar', label: 'Sugar', unit: 'g', type: 'limit' },
+    { key: 'fiber', label: 'Fiber', unit: 'g', type: 'target' },
+    { key: 'potassium', label: 'Potassium', unit: 'mg', type: 'target' },
+    { key: 'calcium', label: 'Calcium', unit: 'mg', type: 'target' },
+    { key: 'iron', label: 'Iron', unit: 'mg', type: 'target' },
+    { key: 'vitaminC', label: 'Vitamin C', unit: 'mg', type: 'target' }
+  ];
+
+  const OPTIONAL_MICROS = ['vitaminD', 'magnesium', 'zinc', 'omega3'];
+  const ALL_MICROS = MICRO_ROWS.map((row) => row.key).concat(OPTIONAL_MICROS);
+  const SOURCE_VALUES = ['manual', 'barcode', 'open_food_facts', 'imported', 'quick_add'];
+
+  const els = {};
+  let state = makeDefaultState();
+  let supa = null;
+  let selectedTemplateId = '';
+  let showArchived = false;
+  let saveTimer = null;
+  let cloudReady = false;
+  let applyingRemote = false;
+  let hadLocalCache = false;
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function cacheEls() {
+    [
+      'storageStatus', 'appDayLabel', 'todayDateLabel', 'todayMeta', 'todayCalories',
+      'macroProgressList', 'microProgressGrid', 'foodLogSummary', 'foodLogCount',
+      'foodLogList', 'foodSearchInput', 'foodAmountInput', 'addSelectedFoodBtn',
+      'foodSearchResults', 'createFromSearchBtn', 'addFoodStatus', 'selectedFoodLabel',
+      'quickNameInput', 'quickCaloriesInput', 'quickProteinInput', 'quickCarbsInput',
+      'quickFatInput', 'quickAddBtn', 'targetGrid', 'historyList', 'databaseSearchInput',
+      'clearArchivedFilterBtn', 'templateList', 'templateForm', 'templateEditId',
+      'templateFormTitle', 'cancelEditTemplateBtn', 'saveTemplateBtn',
+      'resetTemplateFormBtn', 'templateFormError'
+    ].forEach((id) => { els[id] = byId(id); });
+  }
+
+  function nowIso() {
+    return new Date().toISOString();
+  }
+
+  function createId(prefix) {
+    return prefix + '-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+  }
+
+  function normalizeNumber(value) {
+    if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
+    if (value == null) return 0;
+    const cleaned = String(value).trim().replace(/,/g, '');
+    if (!cleaned) return 0;
+    const n = Number.parseFloat(cleaned);
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function clampNumber(value, min) {
+    const n = normalizeNumber(value);
+    return Math.max(min || 0, n);
+  }
+
+  function roundTo(value, decimals) {
+    const n = normalizeNumber(value);
+    const factor = Math.pow(10, decimals);
+    return Math.round((n + Number.EPSILON) * factor) / factor;
+  }
+
+  function formatNumber(value, decimals) {
+    const rounded = roundTo(value, decimals);
+    if (decimals === 0) return String(Math.round(rounded));
+    return rounded.toFixed(decimals).replace(/\.0+$/, '').replace(/(\.\d*[1-9])0+$/, '$1');
+  }
+
+  function formatNutritionValue(value, unit) {
+    const decimals = unit === 'kcal' ? 0 : (Math.abs(normalizeNumber(value)) >= 100 ? 0 : 1);
+    if (!unit) return formatNumber(value, decimals);
+    return formatNumber(value, decimals) + (unit === 'kcal' ? ' ' : '') + unit;
+  }
+
+  function formatProgressValue(current, target, unit) {
+    if (unit === 'kcal') {
+      return formatNumber(current, 0) + ' / ' + formatNumber(target, 0) + ' kcal';
+    }
+    return formatNutritionValue(current, unit) + ' / ' + formatNutritionValue(target, unit);
+  }
+
+  function pad2(value) {
+    return String(value).padStart(2, '0');
+  }
+
+  function dateToKey(date) {
+    return date.getFullYear() + '-' + pad2(date.getMonth() + 1) + '-' + pad2(date.getDate());
+  }
+
+  function parseDateKey(dateKey) {
+    const parts = String(dateKey || '').split('-').map(Number);
+    return new Date(parts[0] || 1970, (parts[1] || 1) - 1, parts[2] || 1);
+  }
+
+  function addDays(dateKey, offset) {
+    const d = parseDateKey(dateKey);
+    d.setDate(d.getDate() + offset);
+    return dateToKey(d);
+  }
+
+  function getAppDateKey(date) {
+    const d = date ? new Date(date) : new Date();
+    if (d.getHours() < APP_RESET_HOUR) d.setDate(d.getDate() - 1);
+    return dateToKey(d);
+  }
+
+  function getTodayDateKey() {
+    return getAppDateKey();
+  }
+
+  function formatDateHeader(dateKey) {
+    const d = parseDateKey(dateKey);
+    const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    return days[d.getDay()] + ', ' + months[d.getMonth()] + ' ' + d.getDate();
+  }
+
+  function formatDateShort(dateKey) {
+    const d = parseDateKey(dateKey);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return months[d.getMonth()] + ' ' + d.getDate();
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function ensureMicros(source) {
+    const raw = source && typeof source === 'object' ? source : {};
+    const out = {};
+    ALL_MICROS.forEach((key) => {
+      out[key] = clampNumber(raw[key], 0);
+    });
+    return out;
+  }
+
+  function seedTemplates(createdAt) {
+    const rows = [
+      {
+        name: 'Greek Yogurt',
+        brand: '',
+        servingSize: 100,
+        servingUnit: 'g',
+        calories: 59,
+        protein: 10,
+        carbs: 3.7,
+        fat: 0.4,
+        micronutrients: { sodium: 36, saturatedFat: 0.1, sugar: 3.2, fiber: 0, potassium: 141, calcium: 110, iron: 0.1, vitaminC: 0 }
+      },
+      {
+        name: 'Rolled Oats',
+        brand: '',
+        servingSize: 40,
+        servingUnit: 'g',
+        calories: 150,
+        protein: 5,
+        carbs: 27,
+        fat: 3,
+        micronutrients: { sodium: 0, saturatedFat: 0.5, sugar: 1, fiber: 4, potassium: 150, calcium: 20, iron: 1.6, vitaminC: 0 }
+      },
+      {
+        name: 'Chicken Breast',
+        brand: '',
+        servingSize: 100,
+        servingUnit: 'g',
+        calories: 165,
+        protein: 31,
+        carbs: 0,
+        fat: 3.6,
+        micronutrients: { sodium: 74, saturatedFat: 1, sugar: 0, fiber: 0, potassium: 256, calcium: 15, iron: 1, vitaminC: 0 }
+      },
+      {
+        name: 'Banana',
+        brand: '',
+        servingSize: 118,
+        servingUnit: 'g',
+        calories: 105,
+        protein: 1.3,
+        carbs: 27,
+        fat: 0.4,
+        micronutrients: { sodium: 1, saturatedFat: 0.1, sugar: 14.4, fiber: 3.1, potassium: 422, calcium: 6, iron: 0.3, vitaminC: 10.3 }
+      }
+    ];
+    return rows.map((row) => sanitizeTemplate(Object.assign({
+      id: createId('food'),
+      barcode: '',
+      source: 'manual',
+      isFavorite: false,
+      archived: false,
+      externalId: '',
+      externalSourceUrl: '',
+      createdAt: createdAt,
+      updatedAt: createdAt
+    }, row)));
+  }
+
+  function makeDefaultState() {
+    const ts = nowIso();
+    return {
+      version: 1,
+      updatedAt: ts,
+      nutritionSettings: {
+        id: 'nutrition-settings',
+        userId: 'local-user',
+        targets: Object.assign({}, DEFAULT_TARGETS),
+        createdAt: ts,
+        updatedAt: ts
+      },
+      foodTemplates: seedTemplates(ts),
+      nutritionLogs: []
+    };
+  }
+
+  function sanitizeTemplate(template) {
+    const ts = nowIso();
+    const source = SOURCE_VALUES.indexOf(template && template.source) === -1 ? 'manual' : template.source;
+    return {
+      id: String((template && template.id) || createId('food')),
+      userId: String((template && template.userId) || 'local-user'),
+      name: String((template && template.name) || '').trim(),
+      brand: String((template && template.brand) || '').trim(),
+      barcode: String((template && template.barcode) || '').trim(),
+      servingSize: Math.max(0.1, normalizeNumber(template && template.servingSize)),
+      servingUnit: String((template && template.servingUnit) || 'g').trim() || 'g',
+      calories: clampNumber(template && template.calories, 0),
+      protein: clampNumber(template && template.protein, 0),
+      carbs: clampNumber(template && template.carbs, 0),
+      fat: clampNumber(template && template.fat, 0),
+      micronutrients: ensureMicros(template && template.micronutrients),
+      source: source,
+      isFavorite: Boolean(template && template.isFavorite),
+      archived: Boolean(template && template.archived),
+      externalId: String((template && (template.externalId || template.external_id)) || '').trim(),
+      externalSourceUrl: String((template && (template.externalSourceUrl || template.external_source_url)) || '').trim(),
+      createdAt: String((template && template.createdAt) || ts),
+      updatedAt: String((template && template.updatedAt) || ts)
+    };
+  }
+
+  function sanitizeLog(log) {
+    const ts = nowIso();
+    const amount = clampNumber(log && log.amount, 0);
+    const templateSnapshot = log && log.templateSnapshot ? sanitizeTemplate(log.templateSnapshot) : null;
+    const calculatedValues = sanitizeCalculatedValues((log && log.calculatedValues) || (log && log.calculated_values));
+    return {
+      id: String((log && log.id) || createId('log')),
+      userId: String((log && log.userId) || 'local-user'),
+      foodTemplateId: String((log && (log.foodTemplateId || log.food_template_id)) || ''),
+      dateKey: String((log && (log.dateKey || log.date_key)) || getTodayDateKey()),
+      name: String((log && log.name) || 'Food').trim() || 'Food',
+      amount: amount,
+      unit: String((log && log.unit) || (templateSnapshot && templateSnapshot.servingUnit) || 'g').trim() || 'g',
+      mealType: String((log && (log.mealType || log.meal_type)) || '').trim(),
+      source: SOURCE_VALUES.indexOf(log && log.source) === -1 ? 'manual' : log.source,
+      calculatedValues: calculatedValues,
+      templateSnapshot: templateSnapshot,
+      loggedAt: String((log && log.loggedAt) || (log && log.logged_at) || ts),
+      createdAt: String((log && log.createdAt) || (log && log.created_at) || ts),
+      updatedAt: String((log && log.updatedAt) || (log && log.updated_at) || ts)
+    };
+  }
+
+  function sanitizeCalculatedValues(values) {
+    const raw = values && typeof values === 'object' ? values : {};
+    return {
+      calories: Math.round(clampNumber(raw.calories, 0)),
+      protein: roundTo(clampNumber(raw.protein, 0), 1),
+      carbs: roundTo(clampNumber(raw.carbs, 0), 1),
+      fat: roundTo(clampNumber(raw.fat, 0), 1),
+      micronutrients: ensureMicros(raw.micronutrients)
+    };
+  }
+
+  function sanitizeState(raw) {
+    const fallback = makeDefaultState();
+    const input = raw && typeof raw === 'object' ? raw : fallback;
+    const settings = input.nutritionSettings || input.settings || {};
+    const targets = Object.assign({}, DEFAULT_TARGETS, settings.targets || {});
+    Object.keys(targets).forEach((key) => { targets[key] = clampNumber(targets[key], 0); });
+    const foodTemplates = Array.isArray(input.foodTemplates) ? input.foodTemplates.map(sanitizeTemplate) : fallback.foodTemplates;
+    const nutritionLogs = Array.isArray(input.nutritionLogs) ? input.nutritionLogs.map(sanitizeLog) : [];
+    return {
+      version: 1,
+      updatedAt: String(input.updatedAt || nowIso()),
+      nutritionSettings: {
+        id: String(settings.id || 'nutrition-settings'),
+        userId: String(settings.userId || 'local-user'),
+        targets: targets,
+        createdAt: String(settings.createdAt || nowIso()),
+        updatedAt: String(settings.updatedAt || nowIso())
+      },
+      foodTemplates: foodTemplates.filter((template) => template.name),
+      nutritionLogs: nutritionLogs
+    };
+  }
+
+  function readCache() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeCache() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {}
+  }
+
+  function updateStorageStatus(mode, text) {
+    if (!els.storageStatus) return;
+    els.storageStatus.dataset.mode = mode;
+    const label = els.storageStatus.querySelector('span:last-child');
+    if (label) label.textContent = text;
+  }
+
+  function getSupabaseClient() {
+    if (!window.supabase || !SUPABASE_URL || !SUPABASE_KEY) return null;
+    if (SUPABASE_URL.indexOf('PASTE-') === 0 || SUPABASE_KEY.indexOf('PASTE-') === 0) return null;
+    try {
+      return window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async function pullCloudState() {
+    if (!supa) return false;
+    try {
+      const result = await supa.from('app_state').select('data').eq('key', APP_STATE_KEY).maybeSingle();
+      if (result.error || !result.data || !result.data.data) return false;
+      const remoteState = sanitizeState(result.data.data);
+      const localUpdated = Date.parse(state.updatedAt || '');
+      const remoteUpdated = Date.parse(remoteState.updatedAt || '');
+      if (hadLocalCache && localUpdated && remoteUpdated && localUpdated > remoteUpdated + 500) {
+        await pushCloudState();
+        return true;
+      }
+      applyingRemote = true;
+      state = remoteState;
+      writeCache();
+      applyingRemote = false;
+      return true;
+    } catch (e) {
+      applyingRemote = false;
+      return false;
+    }
+  }
+
+  async function pushCloudState() {
+    if (!supa || applyingRemote) return;
+    try {
+      await supa.from('app_state').upsert(
+        { key: APP_STATE_KEY, data: state, updated_at: nowIso() },
+        { onConflict: 'key' }
+      );
+      updateStorageStatus('cloud', 'Cloud saved');
+    } catch (e) {
+      updateStorageStatus('local', 'Offline cache');
+    }
+  }
+
+  function scheduleCloudSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(pushCloudState, 350);
+  }
+
+  function flushCloudState() {
+    if (!supa || applyingRemote) return;
+    try {
+      fetch(SUPABASE_URL + '/rest/v1/app_state?on_conflict=key', {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: 'Bearer ' + SUPABASE_KEY,
+          'Content-Type': 'application/json',
+          Prefer: 'resolution=merge-duplicates'
+        },
+        body: JSON.stringify({ key: APP_STATE_KEY, data: state, updated_at: nowIso() }),
+        keepalive: true
+      }).catch(function () {});
+    } catch (e) {}
+  }
+
+  function persist(options) {
+    const opts = options || {};
+    state.updatedAt = nowIso();
+    state.nutritionSettings.updatedAt = state.updatedAt;
+    writeCache();
+    if (supa && cloudReady) scheduleCloudSave();
+    if (opts.render !== false) render();
+  }
+
+  function calculateFoodValues(template, amount) {
+    const t = sanitizeTemplate(template || {});
+    const safeAmount = clampNumber(amount, 0);
+    const serving = Math.max(0.1, normalizeNumber(t.servingSize));
+    const multiplier = safeAmount / serving;
+    const micros = {};
+    ALL_MICROS.forEach((key) => {
+      const unit = getMicroUnit(key);
+      const decimals = unit === 'mg' && normalizeNumber(t.micronutrients[key]) * multiplier >= 100 ? 0 : 1;
+      micros[key] = roundTo(clampNumber(t.micronutrients[key], 0) * multiplier, decimals);
+    });
+    return {
+      calories: Math.round(clampNumber(t.calories, 0) * multiplier),
+      protein: roundTo(clampNumber(t.protein, 0) * multiplier, 1),
+      carbs: roundTo(clampNumber(t.carbs, 0) * multiplier, 1),
+      fat: roundTo(clampNumber(t.fat, 0) * multiplier, 1),
+      micronutrients: micros
+    };
+  }
+
+  function calculateDailyTotals(logs) {
+    const totals = {
+      calories: 0,
+      protein: 0,
+      carbs: 0,
+      fat: 0,
+      micronutrients: ensureMicros({})
+    };
+    (Array.isArray(logs) ? logs : []).forEach((log) => {
+      const values = sanitizeCalculatedValues(log.calculatedValues);
+      totals.calories += normalizeNumber(values.calories);
+      totals.protein += normalizeNumber(values.protein);
+      totals.carbs += normalizeNumber(values.carbs);
+      totals.fat += normalizeNumber(values.fat);
+      ALL_MICROS.forEach((key) => {
+        totals.micronutrients[key] += normalizeNumber(values.micronutrients[key]);
+      });
+    });
+    totals.calories = Math.round(totals.calories);
+    totals.protein = roundTo(totals.protein, 1);
+    totals.carbs = roundTo(totals.carbs, 1);
+    totals.fat = roundTo(totals.fat, 1);
+    ALL_MICROS.forEach((key) => {
+      totals.micronutrients[key] = roundTo(totals.micronutrients[key], getMicroUnit(key) === 'mg' ? 1 : 1);
+    });
+    return totals;
+  }
+
+  function calculateMacroProgress(total, target) {
+    const safeTarget = normalizeNumber(target);
+    if (safeTarget <= 0) return 0;
+    return Math.max(0, Math.min(100, normalizeNumber(total) / safeTarget * 100));
+  }
+
+  function getMicroUnit(key) {
+    const found = MICRO_ROWS.find((row) => row.key === key);
+    if (found) return found.unit;
+    if (key === 'omega3') return 'g';
+    return 'mg';
+  }
+
+  function getActiveTemplates() {
+    return state.foodTemplates.filter((template) => showArchived ? template.archived : !template.archived);
+  }
+
+  function getTodayLogs() {
+    const key = getTodayDateKey();
+    return state.nutritionLogs
+      .filter((log) => log.dateKey === key)
+      .sort((a, b) => new Date(a.loggedAt) - new Date(b.loggedAt));
+  }
+
+  function findTemplate(id) {
+    return state.foodTemplates.find((template) => template.id === id) || null;
+  }
+
+  function getTemplateForLog(log) {
+    return findTemplate(log.foodTemplateId) || log.templateSnapshot;
+  }
+
+  function render() {
+    renderToday();
+    renderFoodLog();
+    renderAddFoodSearch();
+    renderTargets();
+    renderHistory();
+    renderTemplates();
+  }
+
+  function renderToday() {
+    const todayKey = getTodayDateKey();
+    const todayLogs = getTodayLogs();
+    const totals = calculateDailyTotals(todayLogs);
+    els.todayDateLabel.textContent = 'TODAY - ' + formatDateHeader(todayKey);
+    els.todayMeta.textContent = todayLogs.length + ' ' + (todayLogs.length === 1 ? 'entry' : 'entries') + ' logged · ' + formatNutritionValue(totals.calories, 'kcal') + ' so far';
+    els.todayCalories.textContent = formatNumber(totals.calories, 0);
+    els.appDayLabel.textContent = 'App day ' + todayKey + ' · resets at 04:00';
+
+    const targets = state.nutritionSettings.targets;
+    els.macroProgressList.innerHTML = MACRO_ROWS.map((row) => {
+      const current = totals[row.key] || 0;
+      const target = targets[row.key] || 0;
+      const width = calculateMacroProgress(current, target);
+      const valueText = target > 0
+        ? formatProgressValue(current, target, row.unit)
+        : formatNutritionValue(current, row.unit) + ' / Set target';
+      return '<div class="progress-row">' +
+        '<div class="progress-copy"><span>' + row.label + '</span><strong>' + valueText + '</strong></div>' +
+        '<div class="progress-track"><div class="progress-fill ' + row.className + '" style="width:' + width.toFixed(2) + '%"></div></div>' +
+        '</div>';
+    }).join('');
+
+    els.microProgressGrid.innerHTML = MICRO_ROWS.map((row) => {
+      const current = totals.micronutrients[row.key] || 0;
+      const target = targets[row.key] || 0;
+      const overLimit = row.type === 'limit' && target > 0 && current > target;
+      const width = calculateMacroProgress(current, target);
+      const valueText = target > 0
+        ? formatProgressValue(current, target, row.unit)
+        : formatNutritionValue(current, row.unit) + ' / Set target';
+      return '<div class="micro-row">' +
+        '<div class="micro-top"><b>' + row.label + '</b><span>' + valueText + '</span></div>' +
+        '<div class="progress-track"><div class="progress-fill ' + (overLimit ? 'limit-over' : '') + '" style="width:' + width.toFixed(2) + '%"></div></div>' +
+        '</div>';
+    }).join('');
+  }
+
+  function renderFoodLog() {
+    const logs = getTodayLogs();
+    els.foodLogSummary.textContent = logs.length ? 'Totals update as amounts change' : 'No food logged yet';
+    els.foodLogCount.textContent = logs.length + ' ' + (logs.length === 1 ? 'entry' : 'entries');
+    if (!logs.length) {
+      els.foodLogList.innerHTML = '<div class="empty-state">No food logged for this app-day yet.</div>';
+      return;
+    }
+    els.foodLogList.innerHTML = logs.map(renderLogEntry).join('');
+  }
+
+  function renderLogEntry(log) {
+    const values = sanitizeCalculatedValues(log.calculatedValues);
+    const micros = renderMicroChips(values.micronutrients);
+    const loggedAt = new Date(log.loggedAt);
+    const timeText = Number.isNaN(loggedAt.getTime()) ? '' : loggedAt.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    return '<article class="food-entry" data-log-id="' + escapeHtml(log.id) + '">' +
+      '<div class="food-entry-top">' +
+      '<div>' +
+      '<div class="food-name">' + escapeHtml(log.name) + '</div>' +
+      '<div class="food-meta" data-log-values="' + escapeHtml(log.id) + '">' + formatLogValues(log) + '</div>' +
+      '</div>' +
+      '<div class="entry-actions">' +
+      '<button class="danger-btn" type="button" data-action="delete-log" data-id="' + escapeHtml(log.id) + '">Delete</button>' +
+      '</div>' +
+      '</div>' +
+      '<div class="amount-row">' +
+      '<label><span class="label-text">Amount (' + escapeHtml(log.unit) + ')</span><input class="amount-input" type="number" min="0" step="0.1" value="' + formatNumber(log.amount, 1) + '" inputmode="decimal" data-action="update-log-amount" data-id="' + escapeHtml(log.id) + '"></label>' +
+      '<div>' +
+      '<div class="food-meta">' + escapeHtml(timeText || 'Logged today') + '</div>' +
+      '<div class="micro-chips" data-log-micros="' + escapeHtml(log.id) + '">' + micros + '</div>' +
+      '</div>' +
+      '</div>' +
+      '</article>';
+  }
+
+  function formatLogValues(log) {
+    const values = sanitizeCalculatedValues(log.calculatedValues);
+    return formatNumber(log.amount, 1) + escapeHtml(log.unit) + ' · ' +
+      formatNutritionValue(values.calories, 'kcal') + ' · ' +
+      formatNutritionValue(values.protein, 'g') + ' protein · ' +
+      formatNutritionValue(values.carbs, 'g') + ' carbs · ' +
+      formatNutritionValue(values.fat, 'g') + ' fat';
+  }
+
+  function renderMicroChips(micros) {
+    const safe = ensureMicros(micros);
+    const shown = MICRO_ROWS.filter((row) => normalizeNumber(safe[row.key]) > 0).slice(0, 5);
+    if (!shown.length) return '';
+    return shown.map((row) => '<span class="chip">' + row.label + ' ' + formatNutritionValue(safe[row.key], row.unit) + '</span>').join('');
+  }
+
+  function refreshLogEntryValues(id) {
+    const log = state.nutritionLogs.find((item) => item.id === id);
+    if (!log) return;
+    const valueEl = document.querySelector('[data-log-values="' + cssEscape(id) + '"]');
+    if (valueEl) valueEl.innerHTML = formatLogValues(log);
+    const microEl = document.querySelector('[data-log-micros="' + cssEscape(id) + '"]');
+    if (microEl) microEl.innerHTML = renderMicroChips(log.calculatedValues.micronutrients);
+  }
+
+  function cssEscape(value) {
+    if (window.CSS && typeof window.CSS.escape === 'function') return window.CSS.escape(value);
+    return String(value).replace(/"/g, '\\"');
+  }
+
+  function templateMatches(template, query) {
+    const q = String(query || '').trim().toLowerCase();
+    if (!q) return true;
+    return [
+      template.name,
+      template.brand,
+      template.barcode,
+      template.source
+    ].join(' ').toLowerCase().indexOf(q) !== -1;
+  }
+
+  function getFoodSearchMatches() {
+    const q = els.foodSearchInput.value.trim();
+    if (!q) return [];
+    return state.foodTemplates
+      .filter((template) => !template.archived && templateMatches(template, q))
+      .sort(sortTemplates)
+      .slice(0, 5);
+  }
+
+  function sortTemplates(a, b) {
+    if (a.isFavorite !== b.isFavorite) return a.isFavorite ? -1 : 1;
+    return a.name.localeCompare(b.name);
+  }
+
+  function renderAddFoodSearch() {
+    const q = els.foodSearchInput.value.trim();
+    const matches = getFoodSearchMatches();
+    const selected = findTemplate(selectedTemplateId);
+    els.selectedFoodLabel.textContent = selected ? selected.name + ' selected' : 'Search your food database';
+    els.createFromSearchBtn.hidden = !q || matches.length > 0;
+    if (!q) {
+      els.foodSearchResults.innerHTML = '';
+      return;
+    }
+    els.foodSearchResults.innerHTML = matches.map((template) => {
+      const active = selectedTemplateId === template.id ? ' active' : '';
+      return '<button class="search-result' + active + '" type="button" data-action="select-food" data-id="' + escapeHtml(template.id) + '">' +
+        '<span><strong>' + escapeHtml(template.name) + '</strong><br><span>' + templateMacroLine(template) + '</span></span>' +
+        '<span>' + formatNumber(template.servingSize, 1) + escapeHtml(template.servingUnit) + '</span>' +
+        '</button>';
+    }).join('');
+  }
+
+  function templateMacroLine(template) {
+    return formatNutritionValue(template.calories, 'kcal') + ' · ' +
+      formatNutritionValue(template.protein, 'g') + ' P · ' +
+      formatNutritionValue(template.carbs, 'g') + ' C · ' +
+      formatNutritionValue(template.fat, 'g') + ' F';
+  }
+
+  function renderTargets() {
+    const targets = state.nutritionSettings.targets;
+    const rows = MACRO_ROWS.concat(MICRO_ROWS).map((row) => {
+      const target = targets[row.key] || 0;
+      const unit = row.unit;
+      return '<div class="target-row">' +
+        '<div class="target-copy"><strong>' + row.label + '</strong><span>' + (row.type === 'limit' ? 'Limit' : 'Target') + ' · ' + unit + '</span></div>' +
+        '<input type="number" min="0" step="' + (unit === 'kcal' || unit === 'mg' ? '1' : '0.1') + '" inputmode="decimal" value="' + formatNumber(target, unit === 'kcal' || unit === 'mg' ? 0 : 1) + '" data-target-key="' + row.key + '" aria-label="' + row.label + ' target">' +
+        '</div>';
+    }).join('');
+    els.targetGrid.innerHTML = rows;
+  }
+
+  function renderHistory() {
+    const today = getTodayDateKey();
+    const targets = state.nutritionSettings.targets;
+    const rows = [];
+    for (let i = 1; i <= 40; i += 1) {
+      const key = addDays(today, -i);
+      const logs = state.nutritionLogs.filter((log) => log.dateKey === key);
+      if (!logs.length) continue;
+      const totals = calculateDailyTotals(logs);
+      const hit = totals.calories >= targets.calories * 0.9 && totals.protein >= targets.protein * 0.9;
+      rows.push('<article class="history-entry">' +
+        '<div><div class="history-date">' + formatDateShort(key) + '</div>' +
+        '<div class="history-meta">' + formatNutritionValue(totals.calories, 'kcal') + ' · ' +
+        formatNumber(totals.protein, 0) + 'P · ' +
+        formatNumber(totals.carbs, 0) + 'C · ' +
+        formatNumber(totals.fat, 0) + 'F · ' +
+        logs.length + ' ' + (logs.length === 1 ? 'entry' : 'entries') + '</div></div>' +
+        '<span class="status-tag ' + (hit ? 'hit' : '') + '">' + (hit ? 'Hit' : 'Open') + '</span>' +
+        '</article>');
+    }
+    els.historyList.innerHTML = rows.length ? rows.join('') : '<div class="empty-state">No past nutrition data yet.</div>';
+  }
+
+  function renderTemplates() {
+    const q = els.databaseSearchInput.value.trim();
+    const templates = getActiveTemplates().filter((template) => templateMatches(template, q)).sort(sortTemplates);
+    els.clearArchivedFilterBtn.textContent = showArchived ? 'Archived foods' : 'Active foods';
+    if (!templates.length) {
+      els.templateList.innerHTML = '<div class="empty-state">' + (showArchived ? 'No archived foods.' : 'No matching foods in your database.') + '</div>';
+      return;
+    }
+    els.templateList.innerHTML = templates.map((template) => {
+      const brand = template.brand ? escapeHtml(template.brand) + ' · ' : '';
+      const source = template.source.replace(/_/g, ' ');
+      const favClass = template.isFavorite ? ' favorite-on' : '';
+      return '<article class="template-entry">' +
+        '<div class="template-top">' +
+        '<div><div class="template-name">' + escapeHtml(template.name) + '</div>' +
+        '<div class="template-meta">' + brand + formatNumber(template.servingSize, 1) + escapeHtml(template.servingUnit) + ' serving · ' + templateMacroLine(template) + '</div>' +
+        '<div class="template-badges">' +
+        '<span class="chip source-badge">' + escapeHtml(source) + '</span>' +
+        (template.barcode ? '<span class="chip">Barcode ' + escapeHtml(template.barcode) + '</span>' : '') +
+        '</div></div>' +
+        '<button class="icon-btn' + favClass + '" type="button" data-action="toggle-favorite" data-id="' + escapeHtml(template.id) + '" aria-label="Favorite ' + escapeHtml(template.name) + '">★</button>' +
+        '</div>' +
+        '<div class="template-actions">' +
+        '<button class="small-btn" type="button" data-action="log-template" data-id="' + escapeHtml(template.id) + '">Log serving</button>' +
+        '<button class="small-btn" type="button" data-action="edit-template" data-id="' + escapeHtml(template.id) + '">Edit</button>' +
+        (template.archived ? '<button class="small-btn" type="button" data-action="restore-template" data-id="' + escapeHtml(template.id) + '">Restore</button>' : '<button class="danger-btn" type="button" data-action="archive-template" data-id="' + escapeHtml(template.id) + '">Archive</button>') +
+        '</div>' +
+        '</article>';
+    }).join('');
+  }
+
+  function setStatus(message, good) {
+    els.addFoodStatus.textContent = message || '';
+    els.addFoodStatus.classList.toggle('good', Boolean(good));
+  }
+
+  function createLogFromTemplate(template, amount) {
+    const safeAmount = clampNumber(amount, 0);
+    const values = calculateFoodValues(template, safeAmount);
+    const ts = nowIso();
+    return sanitizeLog({
+      id: createId('log'),
+      userId: 'local-user',
+      foodTemplateId: template.id,
+      dateKey: getTodayDateKey(),
+      name: template.name,
+      amount: safeAmount,
+      unit: template.servingUnit,
+      mealType: '',
+      source: template.source,
+      calculatedValues: values,
+      templateSnapshot: template,
+      loggedAt: ts,
+      createdAt: ts,
+      updatedAt: ts
+    });
+  }
+
+  function addLog(log) {
+    state.nutritionLogs.push(sanitizeLog(log));
+    persist();
+  }
+
+  function addSelectedFood() {
+    const selected = findTemplate(selectedTemplateId);
+    const matches = getFoodSearchMatches();
+    const template = selected || (matches.length === 1 ? matches[0] : null);
+    if (!template) {
+      setStatus('Select a food first, or create a new food.', false);
+      return;
+    }
+    const amount = clampNumber(els.foodAmountInput.value || template.servingSize, 0);
+    if (amount <= 0) {
+      setStatus('Amount must be greater than 0.', false);
+      return;
+    }
+    addLog(createLogFromTemplate(template, amount));
+    selectedTemplateId = template.id;
+    els.foodAmountInput.value = formatNumber(template.servingSize, 1);
+    setStatus(template.name + ' added.', true);
+  }
+
+  function quickAdd() {
+    const calories = clampNumber(els.quickCaloriesInput.value, 0);
+    const protein = clampNumber(els.quickProteinInput.value, 0);
+    const carbs = clampNumber(els.quickCarbsInput.value, 0);
+    const fat = clampNumber(els.quickFatInput.value, 0);
+    if (calories + protein + carbs + fat <= 0) {
+      setStatus('Add at least one quick macro value.', false);
+      return;
+    }
+    const ts = nowIso();
+    const name = els.quickNameInput.value.trim() || 'Quick add';
+    addLog({
+      id: createId('log'),
+      userId: 'local-user',
+      foodTemplateId: '',
+      dateKey: getTodayDateKey(),
+      name: name,
+      amount: 1,
+      unit: 'entry',
+      source: 'quick_add',
+      calculatedValues: sanitizeCalculatedValues({
+        calories: calories,
+        protein: protein,
+        carbs: carbs,
+        fat: fat,
+        micronutrients: {}
+      }),
+      loggedAt: ts,
+      createdAt: ts,
+      updatedAt: ts
+    });
+    els.quickNameInput.value = '';
+    els.quickCaloriesInput.value = '';
+    els.quickProteinInput.value = '';
+    els.quickCarbsInput.value = '';
+    els.quickFatInput.value = '';
+    setStatus(name + ' added.', true);
+  }
+
+  function updateLogAmount(id, amount) {
+    const log = state.nutritionLogs.find((item) => item.id === id);
+    if (!log) return;
+    const safeAmount = clampNumber(amount, 0);
+    const template = getTemplateForLog(log);
+    log.amount = safeAmount;
+    log.updatedAt = nowIso();
+    if (template) {
+      log.calculatedValues = calculateFoodValues(template, safeAmount);
+    } else if (log.amount > 0) {
+      log.calculatedValues = sanitizeCalculatedValues(log.calculatedValues);
+    }
+    persist({ render: false });
+    renderToday();
+    renderHistory();
+    refreshLogEntryValues(id);
+  }
+
+  function deleteLog(id) {
+    state.nutritionLogs = state.nutritionLogs.filter((log) => log.id !== id);
+    persist();
+  }
+
+  function readTemplateForm() {
+    const get = (id) => byId(id).value;
+    return {
+      id: els.templateEditId.value || createId('food'),
+      userId: 'local-user',
+      name: get('templateNameInput').trim(),
+      brand: get('templateBrandInput').trim(),
+      barcode: get('templateBarcodeInput').trim(),
+      servingSize: normalizeNumber(get('templateServingSizeInput')),
+      servingUnit: get('templateServingUnitInput').trim() || 'g',
+      calories: clampNumber(get('templateCaloriesInput'), 0),
+      protein: clampNumber(get('templateProteinInput'), 0),
+      carbs: clampNumber(get('templateCarbsInput'), 0),
+      fat: clampNumber(get('templateFatInput'), 0),
+      micronutrients: ensureMicros({
+        sodium: get('templateSodiumInput'),
+        saturatedFat: get('templateSaturatedFatInput'),
+        sugar: get('templateSugarInput'),
+        fiber: get('templateFiberInput'),
+        potassium: get('templatePotassiumInput'),
+        calcium: get('templateCalciumInput'),
+        iron: get('templateIronInput'),
+        vitaminC: get('templateVitaminCInput')
+      }),
+      source: 'manual',
+      isFavorite: false,
+      archived: false,
+      externalId: '',
+      externalSourceUrl: '',
+      createdAt: nowIso(),
+      updatedAt: nowIso()
+    };
+  }
+
+  function saveTemplate(event) {
+    event.preventDefault();
+    const draft = readTemplateForm();
+    if (!draft.name) {
+      els.templateFormError.textContent = 'Name is required.';
+      return;
+    }
+    if (draft.servingSize <= 0) {
+      els.templateFormError.textContent = 'Serving size should be greater than 0.';
+      return;
+    }
+    const existingIndex = state.foodTemplates.findIndex((template) => template.id === draft.id);
+    if (existingIndex >= 0) {
+      const current = state.foodTemplates[existingIndex];
+      state.foodTemplates[existingIndex] = sanitizeTemplate(Object.assign({}, current, draft, {
+        source: current.source || 'manual',
+        isFavorite: current.isFavorite,
+        archived: current.archived,
+        externalId: current.externalId || '',
+        externalSourceUrl: current.externalSourceUrl || '',
+        createdAt: current.createdAt,
+        updatedAt: nowIso()
+      }));
+      setStatus(draft.name + ' updated.', true);
+    } else {
+      state.foodTemplates.push(sanitizeTemplate(draft));
+      setStatus(draft.name + ' added to database.', true);
+    }
+    resetTemplateForm();
+    persist();
+  }
+
+  function resetTemplateForm() {
+    els.templateForm.reset();
+    els.templateEditId.value = '';
+    els.templateFormTitle.textContent = 'Add Food Template';
+    els.saveTemplateBtn.textContent = '+ Add to Database';
+    els.cancelEditTemplateBtn.hidden = true;
+    els.templateFormError.textContent = '';
+    byId('templateServingUnitInput').value = 'g';
+  }
+
+  function editTemplate(id) {
+    const template = findTemplate(id);
+    if (!template) return;
+    els.templateEditId.value = template.id;
+    els.templateFormTitle.textContent = 'Edit Food Template';
+    els.saveTemplateBtn.textContent = 'Save Food';
+    els.cancelEditTemplateBtn.hidden = false;
+    byId('templateNameInput').value = template.name;
+    byId('templateBrandInput').value = template.brand;
+    byId('templateBarcodeInput').value = template.barcode;
+    byId('templateServingSizeInput').value = formatNumber(template.servingSize, 1);
+    byId('templateServingUnitInput').value = template.servingUnit;
+    byId('templateCaloriesInput').value = formatNumber(template.calories, 0);
+    byId('templateProteinInput').value = formatNumber(template.protein, 1);
+    byId('templateCarbsInput').value = formatNumber(template.carbs, 1);
+    byId('templateFatInput').value = formatNumber(template.fat, 1);
+    MICRO_ROWS.forEach((row) => {
+      const idSuffix = row.key.charAt(0).toUpperCase() + row.key.slice(1);
+      const input = byId('template' + idSuffix + 'Input');
+      if (input) input.value = formatNumber(template.micronutrients[row.key], row.unit === 'mg' ? 0 : 1);
+    });
+    els.templateFormError.textContent = '';
+    els.templateForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function archiveTemplate(id, archived) {
+    const template = findTemplate(id);
+    if (!template) return;
+    template.archived = Boolean(archived);
+    template.updatedAt = nowIso();
+    persist();
+  }
+
+  function toggleFavorite(id) {
+    const template = findTemplate(id);
+    if (!template) return;
+    template.isFavorite = !template.isFavorite;
+    template.updatedAt = nowIso();
+    persist();
+  }
+
+  function logTemplateServing(id) {
+    const template = findTemplate(id);
+    if (!template) return;
+    addLog(createLogFromTemplate(template, template.servingSize));
+    setStatus(template.name + ' serving logged.', true);
+  }
+
+  function prefillTemplateFromSearch() {
+    const name = els.foodSearchInput.value.trim();
+    if (!name) return;
+    resetTemplateForm();
+    byId('templateNameInput').value = name;
+    byId('templateServingSizeInput').value = '100';
+    byId('templateServingUnitInput').value = 'g';
+    els.templateForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    byId('templateCaloriesInput').focus();
+  }
+
+  function onInput(event) {
+    const target = event.target;
+    if (!target) return;
+    if (target === els.foodSearchInput) {
+      selectedTemplateId = '';
+      renderAddFoodSearch();
+      return;
+    }
+    if (target === els.databaseSearchInput) {
+      renderTemplates();
+      return;
+    }
+    if (target.dataset && target.dataset.action === 'update-log-amount') {
+      updateLogAmount(target.dataset.id, target.value);
+      return;
+    }
+    if (target.dataset && target.dataset.targetKey) {
+      const key = target.dataset.targetKey;
+      state.nutritionSettings.targets[key] = clampNumber(target.value, 0);
+      persist({ render: false });
+      renderToday();
+      renderHistory();
+    }
+  }
+
+  function onClick(event) {
+    const button = event.target.closest('button');
+    if (!button) return;
+    const action = button.dataset.action;
+    const id = button.dataset.id;
+    if (button === els.addSelectedFoodBtn) addSelectedFood();
+    else if (button === els.quickAddBtn) quickAdd();
+    else if (button === els.createFromSearchBtn) prefillTemplateFromSearch();
+    else if (button === els.resetTemplateFormBtn || button === els.cancelEditTemplateBtn) resetTemplateForm();
+    else if (button === els.clearArchivedFilterBtn) {
+      showArchived = !showArchived;
+      renderTemplates();
+    } else if (action === 'select-food') {
+      const template = findTemplate(id);
+      if (!template) return;
+      selectedTemplateId = id;
+      els.foodSearchInput.value = template.name;
+      els.foodAmountInput.value = formatNumber(template.servingSize, 1);
+      renderAddFoodSearch();
+      els.foodAmountInput.focus();
+    } else if (action === 'delete-log') {
+      deleteLog(id);
+    } else if (action === 'toggle-favorite') {
+      toggleFavorite(id);
+    } else if (action === 'log-template') {
+      logTemplateServing(id);
+    } else if (action === 'edit-template') {
+      editTemplate(id);
+    } else if (action === 'archive-template') {
+      archiveTemplate(id, true);
+    } else if (action === 'restore-template') {
+      archiveTemplate(id, false);
+    }
+  }
+
+  function onKeyDown(event) {
+    if (event.key !== 'Enter') return;
+    if (event.target === els.foodSearchInput || event.target === els.foodAmountInput) {
+      event.preventDefault();
+      addSelectedFood();
+    }
+  }
+
+  async function initCloud() {
+    supa = getSupabaseClient();
+    if (!supa) {
+      updateStorageStatus('local', 'Local cache');
+      return;
+    }
+    updateStorageStatus('local', 'Syncing');
+    const pulled = await pullCloudState();
+    if (!pulled) await pushCloudState();
+    cloudReady = true;
+    updateStorageStatus('cloud', pulled ? 'Cloud loaded' : 'Cloud saved');
+    render();
+    try {
+      supa.channel('app_state_' + APP_STATE_KEY)
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'app_state',
+          filter: 'key=eq.' + APP_STATE_KEY
+        }, (payload) => {
+          if (!payload.new || !payload.new.data) return;
+          applyingRemote = true;
+          state = sanitizeState(payload.new.data);
+          writeCache();
+          applyingRemote = false;
+          render();
+          updateStorageStatus('cloud', 'Cloud live');
+        })
+        .subscribe();
+    } catch (e) {}
+  }
+
+  function boot() {
+    cacheEls();
+    const cached = readCache();
+    hadLocalCache = Boolean(cached);
+    state = sanitizeState(cached || makeDefaultState());
+    resetTemplateForm();
+    render();
+    updateStorageStatus('local', 'Local cache');
+    document.addEventListener('input', onInput);
+    document.addEventListener('click', onClick);
+    document.addEventListener('keydown', onKeyDown);
+    els.templateForm.addEventListener('submit', saveTemplate);
+    window.addEventListener('beforeunload', function () {
+      if (saveTimer) {
+        clearTimeout(saveTimer);
+        flushCloudState();
+      }
+    });
+    window.addEventListener('pagehide', flushCloudState);
+    initCloud();
+    setInterval(function () {
+      renderToday();
+      renderFoodLog();
+      renderHistory();
+    }, 60 * 1000);
+  }
+
+  window.NutritionHelpers = {
+    calculateFoodValues: calculateFoodValues,
+    calculateDailyTotals: calculateDailyTotals,
+    calculateMacroProgress: calculateMacroProgress,
+    normalizeNumber: normalizeNumber,
+    formatNutritionValue: formatNutritionValue,
+    getTodayDateKey: getTodayDateKey,
+    getAppDateKey: getAppDateKey
+  };
+
+  document.addEventListener('DOMContentLoaded', boot);
+})();
+</script>
+</body>
+</html>

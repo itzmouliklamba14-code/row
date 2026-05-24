@@ -4,7 +4,7 @@
 //     <script src="topbar.js" defer></script>
 // It self-injects HTML + CSS, reads progress from localStorage,
 // and renders the water +1 button in the top bar plus the
-// Main/Health/Fitness bottom tabs. Skips chrome on finance.html
+// Main/Health/Nutrition/Fitness bottom tabs. Skips chrome on finance.html
 // and inside iframes (so the water tracker can embed cleanly).
 // =============================================================
 (function () {
@@ -237,9 +237,23 @@
   filter: grayscale(100%) brightness(1.2); opacity: 0.55;
   transition: opacity 0.15s, filter 0.15s, transform 0.10s;
 }
+.bottombar-tab-letter {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px; font-weight: 850;
+  filter: none;
+}
 .bottombar-tab.active { color: #FAFAFA; }
 .bottombar-tab.active .bottombar-tab-icon {
   filter: grayscale(100%) brightness(1.6); opacity: 1;
+}
+.bottombar-tab.active .bottombar-tab-letter {
+  border-color: rgba(125, 211, 252, 0.42);
+  background: rgba(125, 211, 252, 0.12);
+  filter: none;
 }
 .bottombar-tab:active .bottombar-tab-icon { transform: scale(0.92); }
 body.has-bottombar {
@@ -341,6 +355,9 @@ body.topbar-modal-open { overflow: hidden; touch-action: none; }
   <a href="health.html" class="bottombar-tab" data-page="health">
     <span class="bottombar-tab-icon">💊</span><span>Health</span>
   </a>
+  <a href="nutrition.html" class="bottombar-tab" data-page="nutrition">
+    <span class="bottombar-tab-icon bottombar-tab-letter">N</span><span>Nutrition</span>
+  </a>
   <a href="gym.html" class="bottombar-tab" data-page="fitness">
     <span class="bottombar-tab-icon">💪</span><span>Fitness</span>
   </a>
@@ -357,6 +374,7 @@ body.topbar-modal-open { overflow: hidden; touch-action: none; }
   function currentPageKey() {
     const p = (window.location.pathname || '').toLowerCase();
     if (p.endsWith('health.html')) return 'health';
+    if (p.endsWith('nutrition.html') || p.endsWith('/nutrition')) return 'nutrition';
     if (p.endsWith('gym.html')) return 'fitness';
     return 'main';
   }
