@@ -1265,6 +1265,448 @@ img, video, canvas, svg { max-width: 100%; }
   .wt-compare-meta-line { font-size: 11px; }
 }
 
+.fit-hero {
+  margin: 4px 0 16px;
+}
+.fit-kicker {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--good);
+  margin-bottom: 5px;
+}
+.fit-title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.fit-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 760;
+  letter-spacing: 0;
+}
+.fit-subtitle {
+  margin: 5px 0 0;
+  color: var(--text-3);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.fit-sync-chip {
+  flex-shrink: 0;
+  padding: 7px 10px;
+  border: 1px solid rgba(110,231,183,0.18);
+  border-radius: 999px;
+  background: rgba(110,231,183,0.06);
+  color: var(--good);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.fit-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.035);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.fit-tabs::-webkit-scrollbar { display: none; }
+.fit-tab {
+  flex: 0 0 auto;
+  min-height: 38px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-3);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 720;
+  letter-spacing: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.fit-tab:hover { color: var(--text-1); background: rgba(255,255,255,0.05); }
+.fit-tab.active {
+  background: linear-gradient(180deg, #ffffff 0%, #e8e5dd 100%);
+  color: #0a0a0b;
+}
+.fit-panel { display: none; }
+.fit-panel.active { display: block; }
+.fit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.fit-grid.fit-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.fit-grid.fit-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.fit-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.fit-card.tight { padding: 13px; }
+.fit-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.fit-card-title h2,
+.fit-card-title h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 740;
+  letter-spacing: 0;
+}
+.fit-card-title small {
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.fit-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.fit-metric {
+  display: grid;
+  gap: 5px;
+  min-height: 78px;
+  padding: 14px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.025);
+}
+.fit-metric-value {
+  color: var(--text-1);
+  font-size: 24px;
+  font-weight: 760;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.05;
+}
+.fit-metric-sub {
+  color: var(--text-3);
+  font-size: 11px;
+  line-height: 1.35;
+}
+.fit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.fit-actions .po-btn-primary,
+.fit-actions .po-btn-secondary {
+  width: auto;
+  flex: 1 1 150px;
+}
+.fit-toolbar {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.fit-input,
+.fit-select,
+.fit-textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(0,0,0,0.28);
+  color: var(--text-1);
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+}
+.fit-input,
+.fit-select { min-height: 42px; padding: 0 12px; }
+.fit-textarea {
+  min-height: 78px;
+  padding: 12px;
+  resize: vertical;
+  line-height: 1.45;
+}
+.fit-input:focus,
+.fit-select:focus,
+.fit-textarea:focus {
+  border-color: rgba(255,255,255,0.32);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.05);
+}
+.fit-file-zone {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px dashed rgba(110,231,183,0.26);
+  border-radius: 14px;
+  background: rgba(110,231,183,0.035);
+}
+.fit-import-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+.fit-progress {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+}
+.fit-progress > span {
+  display: block;
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--good), #ffffff);
+  transition: width 0.2s ease;
+}
+.fit-preview-list,
+.fit-list {
+  display: grid;
+  gap: 8px;
+}
+.fit-row {
+  display: grid;
+  gap: 5px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.025);
+}
+.fit-row.clickable {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.fit-row.clickable:hover {
+  border-color: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.045);
+}
+.fit-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.fit-row-title {
+  color: var(--text-1);
+  font-size: 14px;
+  font-weight: 720;
+  line-height: 1.3;
+}
+.fit-row-meta {
+  color: var(--text-3);
+  font-size: 11px;
+  font-family: var(--font-mono);
+  line-height: 1.4;
+}
+.fit-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text-2);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.fit-pill.good { color: var(--good); background: rgba(110,231,183,0.12); }
+.fit-pill.warn { color: var(--warn); background: rgba(251,191,36,0.12); }
+.fit-pill.bad { color: var(--bad); background: rgba(255,138,138,0.12); }
+.fit-chart {
+  width: 100%;
+  min-height: 150px;
+  display: block;
+}
+.fit-chart text {
+  fill: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+.fit-chart .bar { fill: rgba(110,231,183,0.58); }
+.fit-chart .bar.alt { fill: rgba(251,191,36,0.62); }
+.fit-chart .line {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.fit-chart .grid {
+  stroke: rgba(255,255,255,0.07);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.fit-chart-empty,
+.fit-empty {
+  padding: 22px 14px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  color: var(--text-3);
+  font-size: 13px;
+  text-align: center;
+}
+.fit-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 12px;
+}
+.fit-calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.fit-calendar-title {
+  font-size: 17px;
+  font-weight: 760;
+}
+.fit-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+.fit-cal-dow {
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  text-align: center;
+  padding: 4px 0;
+}
+.fit-cal-day {
+  min-height: 58px;
+  padding: 7px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.022);
+  color: var(--text-2);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.fit-cal-day.is-empty {
+  opacity: 0.35;
+  cursor: default;
+}
+.fit-cal-day.has-workout {
+  border-color: rgba(110,231,183,0.20);
+  background: rgba(110,231,183,0.055);
+}
+.fit-cal-day.has-cardio {
+  border-color: rgba(125,211,252,0.22);
+  background: rgba(125,211,252,0.055);
+}
+.fit-cal-day.has-pr {
+  box-shadow: inset 0 0 0 1px rgba(251,191,36,0.30);
+}
+.fit-cal-num {
+  display: block;
+  color: var(--text-1);
+  font-size: 12px;
+  font-weight: 760;
+  margin-bottom: 5px;
+}
+.fit-cal-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 3px;
+  background: var(--good);
+}
+.fit-cal-dot.cardio { background: #7dd3fc; }
+.fit-cal-dot.pr { background: var(--warn); }
+.fit-manual-exercises,
+.fit-manual-sets {
+  display: grid;
+  gap: 8px;
+}
+.fit-manual-exercise {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.025);
+}
+.fit-manual-set {
+  display: grid;
+  grid-template-columns: 54px 1fr 1fr 1fr;
+  gap: 6px;
+  margin-top: 8px;
+}
+.fit-modal-wide {
+  max-width: 680px !important;
+}
+.fit-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.fit-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.fit-detail-table th,
+.fit-detail-table td {
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+.fit-detail-table th {
+  color: var(--text-3);
+  font-size: 10px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+@keyframes fit-pr-pop {
+  0% { transform: scale(0.92); opacity: 0; }
+  60% { transform: scale(1.02); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.fit-pr-new {
+  animation: fit-pr-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 640px) {
+  .fit-title-row { align-items: flex-start; flex-direction: column; }
+  .fit-title { font-size: 24px; }
+  .fit-grid,
+  .fit-grid.fit-grid-3,
+  .fit-grid.fit-grid-4,
+  .fit-split,
+  .fit-toolbar {
+    grid-template-columns: 1fr;
+  }
+  .fit-sync-chip { align-self: flex-start; }
+  .fit-import-row { grid-template-columns: 1fr; }
+  .fit-manual-set { grid-template-columns: 44px 1fr 1fr; }
+  .fit-manual-set .fit-rpe-input { grid-column: 2 / -1; }
+  .fit-calendar { gap: 4px; }
+  .fit-cal-day { min-height: 48px; padding: 6px; }
+  .fit-detail-grid { grid-template-columns: 1fr; }
+}
+
 .hidden { display: none !important; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1278,6 +1720,27 @@ img, video, canvas, svg { max-width: 100%; }
     <span class="po-day-split" id="dayPillSplit">—</span>
   </button>
 
+  <header class="fit-hero">
+    <div class="fit-kicker">Fitness</div>
+    <div class="fit-title-row">
+      <div>
+        <h1 class="fit-title">Training Hub</h1>
+        <p class="fit-subtitle">Coach-first logging with Hevy history, records, calendar, and health correlations layered in.</p>
+      </div>
+      <div class="fit-sync-chip" id="fitSyncChip">No Hevy sync</div>
+    </div>
+    <nav class="fit-tabs" aria-label="Fitness sections">
+      <button class="fit-tab active" type="button" data-fit-tab="overview">Overview</button>
+      <button class="fit-tab" type="button" data-fit-tab="coach">Coach</button>
+      <button class="fit-tab" type="button" data-fit-tab="hevy">Hevy Import</button>
+      <button class="fit-tab" type="button" data-fit-tab="history">Workout History</button>
+      <button class="fit-tab" type="button" data-fit-tab="analytics">Analytics</button>
+      <button class="fit-tab" type="button" data-fit-tab="records">Records</button>
+      <button class="fit-tab" type="button" data-fit-tab="calendar">Calendar</button>
+    </nav>
+  </header>
+
+  <section class="fit-panel active" id="fitPanelOverview" data-fit-panel="overview">
   <!-- WEIGHT + PROGRESS PHOTOS -->
   <div class="wt-section">
     <div class="wt-divider"><span>WEIGHT</span></div>
@@ -1359,6 +1822,31 @@ img, video, canvas, svg { max-width: 100%; }
     </button>
   </div>
 
+    <div class="fit-card">
+      <div class="fit-card-title">
+        <h2>Training Overview</h2>
+        <small id="fitOverviewRange">this week</small>
+      </div>
+      <div class="fit-grid fit-grid-4" id="fitOverviewStats">
+        <div class="fit-metric"><div class="fit-label">Workouts</div><div class="fit-metric-value">0</div><div class="fit-metric-sub">No workouts yet</div></div>
+        <div class="fit-metric"><div class="fit-label">Volume</div><div class="fit-metric-value">0</div><div class="fit-metric-sub">total lifted</div></div>
+        <div class="fit-metric"><div class="fit-label">Streak</div><div class="fit-metric-value">0</div><div class="fit-metric-sub">training days</div></div>
+        <div class="fit-metric"><div class="fit-label">Recent PR</div><div class="fit-metric-value">—</div><div class="fit-metric-sub">log or import to begin</div></div>
+      </div>
+    </div>
+
+    <div class="fit-card">
+      <div class="fit-card-title">
+        <h2>Quick Actions</h2>
+      </div>
+      <div class="fit-actions">
+        <button class="po-btn-primary" id="fitQuickLogSet" type="button">Log Set</button>
+        <button class="po-btn-secondary" id="fitQuickImport" type="button">Import Hevy CSV</button>
+        <button class="po-btn-secondary" id="fitQuickAddWorkout" type="button">Add Workout</button>
+      </div>
+    </div>
+  </section>
+
   <!-- Progress photos overlay -->
   <div class="wt-overlay" id="wtOverlay" aria-hidden="true">
     <div class="wt-overlay-inner">
@@ -1436,6 +1924,7 @@ img, video, canvas, svg { max-width: 100%; }
 
   </div>
 
+  <section class="fit-panel" id="fitPanelCoach" data-fit-panel="coach">
   <div class="po-header">
     <h1 class="po-title" id="appTitle">Progressive Overload Coach</h1>
     <button class="po-icon-btn" id="settingsBtn" title="Settings" aria-label="Settings">
@@ -1586,6 +2075,207 @@ img, video, canvas, svg { max-width: 100%; }
       <div class="po-tw-past-body" id="poTwPastBody" style="display:none"></div>
     </div>
   </div>
+  </section>
+
+  <section class="fit-panel" id="fitPanelHevy" data-fit-panel="hevy">
+    <div class="fit-card">
+      <div class="fit-card-title">
+        <h2>Hevy Import</h2>
+        <small>CSV provider</small>
+      </div>
+      <div class="fit-file-zone">
+        <div class="fit-import-row">
+          <input class="fit-input" id="hevyFileLabel" type="text" value="No file selected" readonly aria-label="Selected Hevy file">
+          <button class="po-btn-primary" id="hevyImportBtn" type="button">Import from Hevy</button>
+        </div>
+        <input type="file" id="hevyCsvFile" accept=".csv,text/csv" style="display:none">
+        <div class="fit-grid">
+          <label class="po-field">
+            <span class="fit-label">Units</span>
+            <select class="fit-select" id="hevyUnitConfirm">
+              <option value="auto">Auto detect</option>
+              <option value="lb">lb</option>
+              <option value="kg">kg</option>
+            </select>
+          </label>
+          <label class="po-field">
+            <span class="fit-label">Mode</span>
+            <select class="fit-select" id="hevyImportMode">
+              <option value="sync">Sync new CSV</option>
+              <option value="replace-preview">Preview only</option>
+            </select>
+          </label>
+        </div>
+        <div class="fit-progress" aria-hidden="true"><span id="hevyProgressBar"></span></div>
+        <div class="fit-row-meta" id="hevyImportStatus">Upload a Hevy CSV export to preview workouts before saving.</div>
+      </div>
+    </div>
+
+    <div class="fit-card">
+      <div class="fit-card-title">
+        <h2>Import Preview</h2>
+        <small id="hevyPreviewSource">waiting</small>
+      </div>
+      <div class="fit-preview-list" id="hevyPreview">
+        <div class="fit-empty">Import your Hevy workout history to get started.</div>
+      </div>
+      <div class="fit-actions" style="margin-top:12px;">
+        <button class="po-btn-primary" id="hevyConfirmImport" type="button" disabled>Confirm Import</button>
+        <button class="po-btn-secondary" id="hevyClearPreview" type="button">Clear Preview</button>
+      </div>
+    </div>
+
+    <div class="fit-card">
+      <div class="fit-card-title">
+        <h2>Sync Hevy Data</h2>
+        <small>CSV workflow</small>
+      </div>
+      <div class="fit-actions">
+        <button class="po-btn-secondary" id="hevySyncBtn" type="button">Sync Hevy Data</button>
+        <button class="po-btn-secondary" id="hevyExportJson" type="button">JSON Backup</button>
+        <button class="po-btn-secondary" id="hevyExportCsv" type="button">Export CSV</button>
+        <button class="po-btn-secondary" id="hevyExportPdf" type="button">PDF Report</button>
+      </div>
+      <div class="fit-list" id="hevySyncStatus" style="margin-top:12px;"></div>
+      <div class="fit-row" style="margin-top:12px;">
+        <div class="fit-label">How to sync from Hevy</div>
+        <div class="fit-row-meta">1. Open Hevy app<br>2. Go to Profile or Settings<br>3. Export workout data as CSV<br>4. Upload the latest CSV here<br>5. The app imports new workouts, skips duplicates, and updates changed sets.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fit-panel" id="fitPanelHistory" data-fit-panel="history">
+    <div class="fit-card">
+      <div class="fit-card-title">
+        <h2>Workout History</h2>
+        <button class="po-btn-secondary" id="manualWorkoutBtn" type="button">Add Workout</button>
+      </div>
+      <div class="fit-toolbar">
+        <input class="fit-input" id="workoutSearch" type="search" placeholder="Search workouts or exercises">
+        <select class="fit-select" id="workoutSourceFilter">
+          <option value="all">All sources</option>
+          <option value="hevy">Hevy</option>
+          <option value="manual">Manual</option>
+          <option value="coach">Coach</option>
+        </select>
+        <select class="fit-select" id="workoutRangeFilter">
+          <option value="all">All time</option>
+          <option value="30">30 days</option>
+          <option value="90">90 days</option>
+          <option value="180">6 months</option>
+          <option value="365">1 year</option>
+        </select>
+      </div>
+      <div class="fit-list" id="workoutHistoryList">
+        <div class="fit-empty">No workouts found yet.</div>
+      </div>
+    </div>
+
+    <div class="fit-card">
+      <div class="fit-card-title">
+        <h2>Exercise Database</h2>
+        <button class="po-btn-secondary" id="exerciseAddCustom" type="button">Add Custom</button>
+      </div>
+      <div class="fit-toolbar">
+        <input class="fit-input" id="exerciseDbSearch" type="search" placeholder="Search exercises">
+        <select class="fit-select" id="exerciseDbType">
+          <option value="all">All types</option>
+          <option value="compound">Compound</option>
+          <option value="isolation">Isolation</option>
+          <option value="cardio">Cardio</option>
+        </select>
+        <button class="po-btn-secondary" id="exerciseMergeBtn" type="button">Merge Names</button>
+      </div>
+      <div class="fit-list" id="exerciseDbList"></div>
+    </div>
+  </section>
+
+  <section class="fit-panel" id="fitPanelAnalytics" data-fit-panel="analytics">
+    <div class="fit-card">
+      <div class="fit-card-title">
+        <h2>Analytics</h2>
+        <select class="fit-select" id="analyticsRange" style="max-width:150px;">
+          <option value="90">3 months</option>
+          <option value="30">1 month</option>
+          <option value="180">6 months</option>
+          <option value="365">1 year</option>
+          <option value="all">All time</option>
+        </select>
+      </div>
+      <div class="fit-grid fit-grid-3" id="analyticsSummary"></div>
+    </div>
+    <div class="fit-split">
+      <div class="fit-card">
+        <div class="fit-card-title"><h3>Volume Over Time</h3><small>weekly</small></div>
+        <div id="volumeChart"></div>
+      </div>
+      <div class="fit-card">
+        <div class="fit-card-title"><h3>Frequency</h3><small>workouts/week</small></div>
+        <div id="frequencyChart"></div>
+      </div>
+    </div>
+    <div class="fit-split">
+      <div class="fit-card">
+        <div class="fit-card-title"><h3>Muscle Group Balance</h3><small>sets</small></div>
+        <div id="muscleChart"></div>
+        <div class="fit-list" id="muscleRecommendations" style="margin-top:10px;"></div>
+      </div>
+      <div class="fit-card">
+        <div class="fit-card-title"><h3>Strength Progression</h3><small>big lifts</small></div>
+        <div id="strengthChart"></div>
+      </div>
+    </div>
+    <div class="fit-split">
+      <div class="fit-card">
+        <div class="fit-card-title"><h3>Workout Intensity</h3><small>RPE</small></div>
+        <div id="intensityChart"></div>
+      </div>
+      <div class="fit-card">
+        <div class="fit-card-title"><h3>Health Correlations</h3><small>patterns</small></div>
+        <div class="fit-list" id="healthCorrelationList"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fit-panel" id="fitPanelRecords" data-fit-panel="records">
+    <div class="fit-card">
+      <div class="fit-card-title">
+        <h2>Personal Records</h2>
+        <small id="recordsUpdated">auto tracked</small>
+      </div>
+      <div class="fit-grid fit-grid-4" id="recordsSummary"></div>
+    </div>
+    <div class="fit-split">
+      <div class="fit-card">
+        <div class="fit-card-title"><h3>PR Feed</h3><small>newest first</small></div>
+        <div class="fit-list" id="prFeed"></div>
+      </div>
+      <div class="fit-card">
+        <div class="fit-card-title"><h3>Exercise Records</h3><small>all-time</small></div>
+        <div class="fit-list" id="exerciseRecords"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fit-panel" id="fitPanelCalendar" data-fit-panel="calendar">
+    <div class="fit-card">
+      <div class="fit-calendar-head">
+        <button class="po-btn-secondary" id="calendarPrev" type="button">Prev</button>
+        <div class="fit-calendar-title" id="calendarTitle">—</div>
+        <button class="po-btn-secondary" id="calendarNext" type="button">Next</button>
+      </div>
+      <div class="fit-calendar" id="workoutCalendar"></div>
+    </div>
+    <div class="fit-card">
+      <div class="fit-card-title">
+        <h2>Selected Day</h2>
+        <small id="calendarSelectedLabel">today</small>
+      </div>
+      <div class="fit-list" id="calendarDayWorkouts">
+        <div class="fit-empty">No workouts found yet.</div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <!-- Add / Edit Exercise Modal -->
@@ -1692,6 +2382,67 @@ img, video, canvas, svg { max-width: 100%; }
   </div>
 </div>
 
+<!-- Manual workout modal -->
+<div class="po-modal-bg" id="manualWorkoutModal">
+  <div class="po-modal fit-modal-wide">
+    <h3>Add Workout</h3>
+    <div class="fit-grid">
+      <label class="po-field">
+        <span class="fit-label">Date and time</span>
+        <input class="fit-input" id="manualWorkoutDate" type="datetime-local">
+      </label>
+      <label class="po-field">
+        <span class="fit-label">Workout name</span>
+        <input class="fit-input" id="manualWorkoutName" type="text" placeholder="Push Day">
+      </label>
+    </div>
+    <label class="po-field">
+      <span class="fit-label">Notes</span>
+      <textarea class="fit-textarea" id="manualWorkoutNotes" placeholder="Optional notes"></textarea>
+    </label>
+    <div class="fit-card-title" style="margin-top:14px;">
+      <h3>Exercises</h3>
+      <button class="po-btn-secondary" id="manualAddExercise" type="button">Add Exercise</button>
+    </div>
+    <div class="fit-manual-exercises" id="manualExercises"></div>
+    <div class="po-modal-actions">
+      <button class="po-btn-secondary" id="manualWorkoutCancel" type="button">Cancel</button>
+      <button class="po-btn-primary" id="manualWorkoutSave" type="button">Save workout</button>
+    </div>
+  </div>
+</div>
+
+<!-- Workout detail modal -->
+<div class="po-modal-bg" id="workoutDetailModal">
+  <div class="po-modal fit-modal-wide">
+    <div class="fit-card-title">
+      <h3 id="workoutDetailTitle">Workout</h3>
+      <button class="po-btn-secondary" id="workoutDetailClose" type="button">Close</button>
+    </div>
+    <div id="workoutDetailBody"></div>
+  </div>
+</div>
+
+<!-- Exercise detail modal -->
+<div class="po-modal-bg" id="exerciseDetailModal">
+  <div class="po-modal fit-modal-wide">
+    <div class="fit-card-title">
+      <h3 id="exerciseDetailTitle">Exercise</h3>
+      <select class="fit-select" id="exerciseDetailRange" style="max-width:140px;">
+        <option value="30">1 month</option>
+        <option value="90">3 months</option>
+        <option value="180">6 months</option>
+        <option value="365">1 year</option>
+        <option value="all" selected>All-time</option>
+      </select>
+    </div>
+    <div id="exerciseDetailBody"></div>
+    <div class="po-modal-actions">
+      <button class="po-btn-primary" id="exerciseDetailClose" type="button">Done</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function() {
   // ============================================================
@@ -1705,6 +2456,25 @@ img, video, canvas, svg { max-width: 100%; }
     return CONFIG.defaultExercises.map((e, i) => Object.assign({
       id: 'seed_' + i + '_' + Date.now()
     }, e));
+  }
+  function buildDefaultExerciseDatabase() {
+    return [
+      { id: 'db_squat', name: 'Squat', normalizedName: 'squat', category: 'legs', muscleGroups: ['quads','glutes','hamstrings'], type: 'compound', aliases: ['Back squat'], notes: '' },
+      { id: 'db_deadlift', name: 'Deadlift', normalizedName: 'deadlift', category: 'back', muscleGroups: ['back','glutes','hamstrings'], type: 'compound', aliases: ['Conventional deadlift'], notes: '' },
+      { id: 'db_bench_press', name: 'Bench Press', normalizedName: 'bench press', category: 'chest', muscleGroups: ['chest','triceps','shoulders'], type: 'compound', aliases: ['Bench press', 'Bench Press (Barbell)'], notes: '' },
+      { id: 'db_overhead_press', name: 'Overhead Press', normalizedName: 'overhead press', category: 'shoulders', muscleGroups: ['shoulders','triceps'], type: 'compound', aliases: ['OHP', 'Shoulder Press'], notes: '' },
+      { id: 'db_pull_up', name: 'Pull Up', normalizedName: 'pull up', category: 'back', muscleGroups: ['back','biceps'], type: 'compound', aliases: ['Pull Ups', 'Pull-up', 'Pullup', 'Pull-ups'], notes: '' },
+      { id: 'db_row', name: 'Row', normalizedName: 'row', category: 'back', muscleGroups: ['back','biceps'], type: 'compound', aliases: ['Barbell row', 'Seated row'], notes: '' },
+      { id: 'db_curl', name: 'Curl', normalizedName: 'curl', category: 'arms', muscleGroups: ['biceps'], type: 'isolation', aliases: ['Bicep curl', 'Dumbbell curl'], notes: '' },
+      { id: 'db_tricep_extension', name: 'Tricep Extension', normalizedName: 'tricep extension', category: 'arms', muscleGroups: ['triceps'], type: 'isolation', aliases: ['Triceps extension', 'Tricep pushdown'], notes: '' },
+      { id: 'db_lateral_raise', name: 'Lateral Raise', normalizedName: 'lateral raise', category: 'shoulders', muscleGroups: ['shoulders'], type: 'isolation', aliases: ['DB lateral raise'], notes: '' },
+      { id: 'db_leg_curl', name: 'Leg Curl', normalizedName: 'leg curl', category: 'legs', muscleGroups: ['hamstrings'], type: 'isolation', aliases: [], notes: '' },
+      { id: 'db_leg_extension', name: 'Leg Extension', normalizedName: 'leg extension', category: 'legs', muscleGroups: ['quads'], type: 'isolation', aliases: [], notes: '' },
+      { id: 'db_running', name: 'Running', normalizedName: 'running', category: 'cardio', muscleGroups: ['cardio'], type: 'cardio', aliases: ['Run'], notes: '' },
+      { id: 'db_cycling', name: 'Cycling', normalizedName: 'cycling', category: 'cardio', muscleGroups: ['cardio','legs'], type: 'cardio', aliases: ['Bike', 'Biking'], notes: '' },
+      { id: 'db_rowing', name: 'Rowing', normalizedName: 'rowing', category: 'cardio', muscleGroups: ['cardio','back','legs'], type: 'cardio', aliases: ['Rower'], notes: '' },
+      { id: 'db_walking', name: 'Walking', normalizedName: 'walking', category: 'cardio', muscleGroups: ['cardio'], type: 'cardio', aliases: ['Walk'], notes: '' }
+    ];
   }
   function loadState() {
     try {
@@ -1720,6 +2490,14 @@ img, video, canvas, svg { max-width: 100%; }
     s.days  = (Array.isArray(s.days)  && s.days.length)  ? s.days  : CONFIG.days.slice();
     s.exercises = Array.isArray(s.exercises) ? s.exercises : buildDefaultExercises();
     s.logs = (s.logs && typeof s.logs === 'object') ? s.logs : {};
+    s.workouts = Array.isArray(s.workouts) ? s.workouts : [];
+    s.hevyImports = Array.isArray(s.hevyImports) ? s.hevyImports : [];
+    s.coachLogs = Array.isArray(s.coachLogs) ? s.coachLogs : [];
+    s.exerciseDatabase = Array.isArray(s.exerciseDatabase) && s.exerciseDatabase.length ? s.exerciseDatabase : buildDefaultExerciseDatabase();
+    s.personalRecords = (s.personalRecords && typeof s.personalRecords === 'object') ? s.personalRecords : {};
+    s.hevySyncMetadata = (s.hevySyncMetadata && typeof s.hevySyncMetadata === 'object') ? s.hevySyncMetadata : {};
+    s.analyticsCache = (s.analyticsCache && typeof s.analyticsCache === 'object') ? s.analyticsCache : {};
+    s.healthData = (s.healthData && typeof s.healthData === 'object') ? s.healthData : { glucose: [], insulin: [], sleep: [], nutrition: [] };
     s.filterGym = s.filterGym || s.gyms[0].id;
     s.filterDay = s.filterDay || s.days[0].id;
     // Split rotation lives in state so the user can edit it via the pill modal.
@@ -1764,6 +2542,235 @@ img, video, canvas, svg { max-width: 100%; }
   function dayName(id) { const d = state.days.find(x => x.id === id); return d ? d.name : id; }
   function estimate1RM(w, r) { if (r < 2) return w; return w * (1 + r / 30); }
   function roundToStep(v, s) { return Math.round(v / s) * s; }
+  function fitId(prefix) { return prefix + '_' + Date.now() + '_' + Math.floor(Math.random() * 100000); }
+  function fitDateKey(d) {
+    const dt = d instanceof Date ? d : new Date(d);
+    if (isNaN(dt.getTime())) return new Date().toISOString().slice(0, 10);
+    return dt.getFullYear() + '-' + String(dt.getMonth() + 1).padStart(2, '0') + '-' + String(dt.getDate()).padStart(2, '0');
+  }
+  function fitNormalizeName(name) {
+    let s = String(name || '').toLowerCase();
+    s = s.replace(/\([^)]*\)/g, ' ');
+    s = s.replace(/&/g, ' and ');
+    s = s.replace(/[-_]/g, ' ');
+    s = s.replace(/[^a-z0-9 ]+/g, ' ');
+    s = s.replace(/\b(barbell|dumbbell|machine|cable|bodyweight|weighted|single arm|single leg)\b/g, ' ');
+    s = s.replace(/\bpresses\b/g, 'press').replace(/\brows\b/g, 'row').replace(/\bcurls\b/g, 'curl');
+    s = s.replace(/\bpull ups\b/g, 'pull up').replace(/\bpullups\b/g, 'pull up').replace(/\bpull up\b/g, 'pull up');
+    s = s.replace(/\s+/g, ' ').trim();
+    return s || String(name || '').trim().toLowerCase();
+  }
+  function fitFormatDate(key) {
+    const parts = String(key || '').slice(0, 10).split('-').map(Number);
+    const d = parts.length === 3 ? new Date(parts[0], parts[1] - 1, parts[2]) : new Date(key);
+    if (isNaN(d.getTime())) return '—';
+    const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
+    return m + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+  function fitFormatShortDate(key) {
+    const parts = String(key || '').slice(0, 10).split('-').map(Number);
+    const d = parts.length === 3 ? new Date(parts[0], parts[1] - 1, parts[2]) : new Date(key);
+    if (isNaN(d.getTime())) return '—';
+    return (d.getMonth() + 1) + '/' + d.getDate();
+  }
+  function fitUnitWeight(weight, fromUnit, toUnit) {
+    const w = Number(weight) || 0;
+    if (!fromUnit || !toUnit || fromUnit === toUnit) return w;
+    if (fromUnit === 'lb' && toUnit === 'kg') return w / 2.20462;
+    if (fromUnit === 'kg' && toUnit === 'lb') return w * 2.20462;
+    return w;
+  }
+  function fitRound(n, digits) {
+    const p = Math.pow(10, digits == null ? 1 : digits);
+    return Math.round((Number(n) || 0) * p) / p;
+  }
+  function fitExerciseDbEntry(name) {
+    const norm = fitNormalizeName(name);
+    return (state.exerciseDatabase || []).find(e => {
+      if (e.normalizedName === norm || fitNormalizeName(e.name) === norm) return true;
+      return (e.aliases || []).some(a => fitNormalizeName(a) === norm);
+    }) || null;
+  }
+  function fitExerciseMeta(name) {
+    const db = fitExerciseDbEntry(name);
+    if (db) return db;
+    const norm = fitNormalizeName(name);
+    let type = 'isolation', category = 'other', muscleGroups = ['other'];
+    if (/run|walk|cycl|bike|rower|cardio|distance/.test(norm)) { type = 'cardio'; category = 'cardio'; muscleGroups = ['cardio']; }
+    else if (/deadlift/.test(norm)) { category = 'back'; muscleGroups = ['back','glutes','hamstrings']; type = 'compound'; }
+    else if (/squat|leg press|leg|lunge|calf|hamstring|quad/.test(norm)) { category = 'legs'; muscleGroups = ['quads','glutes','hamstrings']; type = /curl|extension|calf/.test(norm) ? 'isolation' : 'compound'; }
+    else if (/bench|press|fly|chest/.test(norm)) { category = 'chest'; muscleGroups = ['chest','triceps','shoulders']; type = /bench|press/.test(norm) ? 'compound' : 'isolation'; }
+    else if (/pull|row|lat|deadlift|back/.test(norm)) { category = 'back'; muscleGroups = ['back','biceps']; type = 'compound'; }
+    else if (/shoulder|raise|delt|overhead/.test(norm)) { category = 'shoulders'; muscleGroups = ['shoulders']; type = /overhead|press/.test(norm) ? 'compound' : 'isolation'; }
+    else if (/curl|bicep|tricep|pushdown/.test(norm)) { category = 'arms'; muscleGroups = [/tricep|pushdown/.test(norm) ? 'triceps' : 'biceps']; }
+    return { name, normalizedName: norm, category, muscleGroups, type, aliases: [], notes: '' };
+  }
+  function fitEnsureExerciseInDb(name, extra) {
+    const norm = fitNormalizeName(name);
+    if (!norm) return null;
+    let db = fitExerciseDbEntry(name);
+    if (db) {
+      if (extra && extra.hevyExerciseId && !db.hevyExerciseId) db.hevyExerciseId = extra.hevyExerciseId;
+      return db;
+    }
+    const meta = Object.assign({}, fitExerciseMeta(name), extra || {});
+    db = {
+      id: fitId('db'),
+      name: String(name || '').trim(),
+      normalizedName: norm,
+      category: meta.category || 'other',
+      muscleGroups: Array.isArray(meta.muscleGroups) ? meta.muscleGroups : ['other'],
+      type: meta.type || 'isolation',
+      notes: meta.notes || '',
+      aliases: Array.isArray(meta.aliases) ? meta.aliases : [],
+      hevyExerciseId: meta.hevyExerciseId || ''
+    };
+    state.exerciseDatabase.push(db);
+    return db;
+  }
+  function refreshExerciseDatabase() {
+    (state.exercises || []).forEach(ex => fitEnsureExerciseInDb(ex.name, {
+      type: ex.bw ? 'compound' : undefined,
+      aliases: ex.name === 'Pull-ups' ? ['Pull Ups', 'Pull-up', 'Pullup'] : []
+    }));
+    (state.workouts || []).forEach(w => {
+      (w.exercises || []).forEach(ex => fitEnsureExerciseInDb(ex.name, {
+        category: ex.category,
+        muscleGroups: ex.muscleGroups,
+        type: ex.type,
+        hevyExerciseId: ex.hevyExerciseId
+      }));
+    });
+  }
+  function fitSetVolume(set, targetUnit) {
+    if (!set || set.reps == null) return 0;
+    const w = fitUnitWeight(set.weight || 0, set.weightUnit || state.units, targetUnit || state.units);
+    return Math.max(0, w) * (Number(set.reps) || 0);
+  }
+  function workoutTotals(w) {
+    let sets = 0, reps = 0, volume = 0, rpeTotal = 0, rpeCount = 0, distanceKm = 0, durationSeconds = 0;
+    (w.exercises || []).forEach(ex => (ex.sets || []).forEach(set => {
+      sets++;
+      reps += Number(set.reps) || 0;
+      volume += fitSetVolume(set, state.units);
+      if (set.rpe != null && set.rpe !== '') { rpeTotal += Number(set.rpe) || 0; rpeCount++; }
+      distanceKm += Number(set.distanceKm) || 0;
+      durationSeconds += Number(set.durationSeconds) || 0;
+    }));
+    return { sets, reps, volume, averageRpe: rpeCount ? rpeTotal / rpeCount : null, distanceKm, durationSeconds };
+  }
+  function coachLogsToWorkouts() {
+    const byDay = {};
+    (state.exercises || []).forEach(ex => {
+      (state.logs[ex.id] || []).forEach((log, idx) => {
+        if (!log || !log.date) return;
+        const dateKey = String(log.date).slice(0, 10);
+        const workoutKey = dateKey + '|coach';
+        if (!byDay[workoutKey]) {
+          byDay[workoutKey] = {
+            id: 'coach_' + dateKey,
+            source: 'coach',
+            sourceId: 'coach_' + dateKey,
+            date: dateKey,
+            startTime: log.date,
+            endTime: log.date,
+            duration: '',
+            name: 'Coach log',
+            notes: '',
+            gym: ex.gym === 'both' ? state.filterGym : ex.gym,
+            dayType: ex.day,
+            exercises: []
+          };
+        }
+        let wEx = byDay[workoutKey].exercises.find(x => x.coachExerciseId === ex.id);
+        if (!wEx) {
+          const meta = fitExerciseMeta(ex.name);
+          wEx = {
+            id: 'coach_ex_' + ex.id,
+            coachExerciseId: ex.id,
+            name: ex.name,
+            normalizedName: fitNormalizeName(ex.name),
+            category: meta.category,
+            muscleGroups: meta.muscleGroups,
+            type: meta.type,
+            sets: []
+          };
+          byDay[workoutKey].exercises.push(wEx);
+        }
+        wEx.sets.push({
+          id: 'coach_set_' + ex.id + '_' + idx,
+          setNumber: wEx.sets.length + 1,
+          weight: Number(log.weight) || 0,
+          weightUnit: state.units,
+          reps: Number(log.reps) || 0,
+          rpe: log.rpe == null ? '' : log.rpe,
+          notes: log.notes || '',
+          setType: 'top',
+          source: 'coach',
+          date: log.date,
+          coachExerciseId: ex.id,
+          coachIndex: idx
+        });
+      });
+    });
+    return Object.values(byDay).sort((a,b) => (a.date || '').localeCompare(b.date || ''));
+  }
+  function getAllWorkouts() {
+    const workouts = (state.workouts || []).map(w => Object.assign({}, w, { exercises: (w.exercises || []).map(ex => Object.assign({}, ex, { sets: (ex.sets || []).slice() })) }));
+    return workouts.concat(coachLogsToWorkouts()).sort((a,b) => {
+      const ad = a.startTime || a.date || '';
+      const bd = b.startTime || b.date || '';
+      return String(ad).localeCompare(String(bd));
+    });
+  }
+  function flattenWorkoutSets(workouts) {
+    const out = [];
+    (workouts || getAllWorkouts()).forEach(w => {
+      (w.exercises || []).forEach(ex => {
+        (ex.sets || []).forEach(set => out.push({ workout: w, exercise: ex, set }));
+      });
+    });
+    return out;
+  }
+  function getMergedLogsForExercise(exId) {
+    const ex = (state.exercises || []).find(e => e.id === exId);
+    if (!ex) return [];
+    const norm = fitNormalizeName(ex.name);
+    const logs = [];
+    (state.logs[ex.id] || []).forEach((l, idx) => {
+      logs.push(Object.assign({}, l, {
+        source: l.source || 'coach',
+        weightUnit: state.units,
+        coachExerciseId: ex.id,
+        coachIndex: idx,
+        normalizedName: norm
+      }));
+    });
+    (state.workouts || []).forEach(w => {
+      (w.exercises || []).forEach(wx => {
+        const match = wx.normalizedName === norm || fitNormalizeName(wx.name) === norm;
+        if (!match) return;
+        (wx.sets || []).forEach(set => {
+          const weight = fitUnitWeight(set.weight || 0, set.weightUnit || state.units, state.units);
+          logs.push({
+            weight: fitRound(weight, 2),
+            reps: Number(set.reps) || 0,
+            date: set.date || w.startTime || w.date,
+            source: set.source || w.source || 'manual',
+            weightUnit: state.units,
+            rpe: set.rpe,
+            notes: set.notes || '',
+            setType: set.setType || '',
+            workoutId: w.id,
+            workoutName: w.name,
+            normalizedName: norm
+          });
+        });
+      });
+    });
+    return logs.filter(l => l.reps || l.weight || l.durationSeconds || l.distanceKm)
+      .sort((a,b) => new Date(a.date || 0) - new Date(b.date || 0));
+  }
   function getFiltered() {
     return state.exercises.filter(e =>
       (e.gym === state.filterGym || e.gym === 'both') && e.day === state.filterDay);
@@ -1775,7 +2782,7 @@ img, video, canvas, svg { max-width: 100%; }
     if (!ex) { ex = f[0]; state.currentEx = ex.id; saveState(); }
     return ex;
   }
-  function getLogs() { return (state.logs[state.currentEx] || []).slice(); }
+  function getLogs() { return getMergedLogsForExercise(state.currentEx); }
 
   // Prescription engine — "what should I do next session?"
   // Upgrade trigger: hits CONFIG.upgradeAtReps (default 8) OR the
@@ -1972,24 +2979,26 @@ img, video, canvas, svg { max-width: 100%; }
       const d = new Date(l.date);
       const dStr = (d.getMonth() + 1) + '/' + d.getDate();
       const setStr = ex.bw ? (l.reps + ' reps') : (l.weight + unit() + ' × ' + l.reps);
-      const realIdx = logs.length - 1 - i; // since we reversed
+      const source = l.source ? String(l.source).toUpperCase() : 'COACH';
+      const canDelete = l.source === 'coach' && l.coachIndex != null;
       return '<div class="po-hist-row">'
         + '<div class="po-hist-date">' + dStr + '</div>'
-        + '<div class="po-hist-set">' + setStr + '</div>'
-        + '<button class="po-hist-del" data-idx="' + realIdx + '" aria-label="Delete">×</button>'
+        + '<div><div class="po-hist-set">' + setStr + '</div><div class="fit-row-meta">' + source + (l.workoutName ? ' · ' + escape(l.workoutName) : '') + '</div></div>'
+        + (canDelete
+          ? '<button class="po-hist-del" data-coach-idx="' + l.coachIndex + '" aria-label="Delete">×</button>'
+          : '<button class="po-hist-del" data-imported="1" aria-label="Imported set" title="Imported sets stay in workout history">·</button>')
         + '</div>';
     }).join('');
     wrap.querySelectorAll('.po-hist-del').forEach(b => {
       b.addEventListener('click', () => {
+        if (b.dataset.imported) { alert('Imported/manual workout sets can be edited from Workout History.'); return; }
         if (!confirm('Delete this log?')) return;
-        const realIdx = parseInt(b.dataset.idx, 10);
+        const coachIdx = parseInt(b.dataset.coachIdx, 10);
         const arr = state.logs[state.currentEx] || [];
-        // realIdx is index in REVERSED list; map back to original
-        const origIdx = arr.length - 1 - realIdx;
-        arr.splice(origIdx, 1);
+        arr.splice(coachIdx, 1);
         if (!arr.length) delete state.logs[state.currentEx];
         else state.logs[state.currentEx] = arr;
-        saveState(); renderAll();
+        saveState(); renderAll(); renderFitnessLayer();
       });
     });
   }
@@ -2068,6 +3077,7 @@ img, video, canvas, svg { max-width: 100%; }
     renderRx(); renderStats(); renderSparkline(); renderHistory();
     renderTodaysWorkout();
     renderPastWorkouts();
+    renderFitnessLayer();
     // Pre-fill weight input with last logged weight (or starting weight)
     const ex = getCurrentEx();
     if (ex && !ex.bw) {
@@ -2102,11 +3112,14 @@ img, video, canvas, svg { max-width: 100%; }
 
   function logsByDay() {
     const byDay = {};
-    state.exercises.forEach(ex => {
-      (state.logs[ex.id] || []).forEach(l => {
-        const dk = l.date.slice(0, 10);
+    getAllWorkouts().forEach(w => {
+      (w.exercises || []).forEach(ex => {
+        (ex.sets || []).forEach(l => {
+        const dk = (l.date || w.startTime || w.date || '').slice(0, 10);
+        if (!dk) return;
         if (!byDay[dk]) byDay[dk] = [];
-        byDay[dk].push({ ex, log: l });
+        byDay[dk].push({ ex, log: l, workout: w });
+        });
       });
     });
     return byDay;
@@ -2234,8 +3247,1068 @@ img, video, canvas, svg { max-width: 100%; }
   });
 
   // ============================================================
+  // FITNESS LAYER: Hevy import/sync, normalized workouts,
+  // analytics, records, exercise DB, calendar, and exports.
+  // ============================================================
+  let activeFitPanel = 'overview';
+  let pendingHevyImport = null;
+  let calendarCursor = new Date();
+  let calendarSelectedKey = fitDateKey(new Date());
+  let manualDraft = [];
+  let activeExerciseDetailName = '';
+
+  const importProviders = {
+    hevy: {
+      id: 'hevy',
+      label: 'Hevy CSV',
+      parse: parseHevyCsv
+    }
+  };
+  const syncProviders = {
+    hevy: {
+      id: 'hevy',
+      label: 'Hevy CSV sync',
+      sync: importPendingHevy
+    }
+  };
+  window.importProviders = importProviders;
+  window.syncProviders = syncProviders;
+
+  function renderFitnessLayer() {
+    try {
+      window.appData = state;
+      refreshExerciseDatabase();
+      renderFitSyncChip();
+      renderOverview();
+      renderHevySyncStatus();
+      renderWorkoutHistory();
+      renderExerciseDatabase();
+      renderRecords();
+      renderCalendar();
+      if (activeFitPanel === 'analytics') renderAnalytics();
+    } catch (e) {
+      console.warn('Fitness render failed', e);
+    }
+  }
+
+  function setFitPanel(panel) {
+    activeFitPanel = panel || 'overview';
+    document.querySelectorAll('.fit-tab').forEach(btn => btn.classList.toggle('active', btn.dataset.fitTab === activeFitPanel));
+    document.querySelectorAll('.fit-panel').forEach(panelEl => panelEl.classList.toggle('active', panelEl.dataset.fitPanel === activeFitPanel));
+    if (activeFitPanel === 'analytics') renderAnalytics();
+    if (activeFitPanel === 'calendar') renderCalendar();
+    if (activeFitPanel === 'history') renderWorkoutHistory();
+    if (activeFitPanel === 'records') renderRecords();
+  }
+
+  function renderFitSyncChip() {
+    const meta = state.hevySyncMetadata || {};
+    const chip = $('fitSyncChip');
+    if (!chip) return;
+    if (!meta.lastSyncDate) chip.textContent = 'No Hevy sync';
+    else chip.textContent = 'Hevy synced ' + fitFormatShortDate(meta.lastSyncDate);
+  }
+
+  function weekStart(d) {
+    const dt = new Date(d);
+    dt.setHours(0,0,0,0);
+    const day = (dt.getDay() + 6) % 7;
+    dt.setDate(dt.getDate() - day);
+    return dt;
+  }
+
+  function trainingStreak(workouts) {
+    const days = new Set((workouts || getAllWorkouts()).map(w => w.date).filter(Boolean));
+    let cursor = new Date();
+    cursor.setHours(0,0,0,0);
+    if (!days.has(fitDateKey(cursor))) cursor.setDate(cursor.getDate() - 1);
+    let count = 0;
+    while (days.has(fitDateKey(cursor))) {
+      count++;
+      cursor.setDate(cursor.getDate() - 1);
+    }
+    return count;
+  }
+
+  function workoutsInRange(workouts, days) {
+    if (days === 'all') return workouts.slice();
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - Number(days));
+    return workouts.filter(w => new Date(w.date || w.startTime) >= cutoff);
+  }
+
+  function renderOverview() {
+    const workouts = getAllWorkouts();
+    const start = weekStart(new Date());
+    const week = workouts.filter(w => new Date(w.date || w.startTime) >= start);
+    const totals = week.reduce((acc, w) => {
+      const t = workoutTotals(w);
+      acc.sets += t.sets;
+      acc.volume += t.volume;
+      return acc;
+    }, { sets: 0, volume: 0 });
+    const records = computePersonalRecords(workouts);
+    const recentPr = records.feed[0];
+    const html = [
+      metricHTML('Workouts', week.length, totals.sets + ' sets this week'),
+      metricHTML('Volume', Math.round(totals.volume).toLocaleString(), state.units + ' lifted'),
+      metricHTML('Streak', trainingStreak(workouts), 'training days'),
+      metricHTML('Recent PR', recentPr ? escape(recentPr.exercise) : '—', recentPr ? escape(recentPr.label) : 'No PRs yet')
+    ].join('');
+    const el = $('fitOverviewStats');
+    if (el) el.innerHTML = html;
+  }
+
+  function metricHTML(label, value, sub) {
+    return '<div class="fit-metric"><div class="fit-label">' + escape(label) + '</div><div class="fit-metric-value">' + value + '</div><div class="fit-metric-sub">' + escape(sub) + '</div></div>';
+  }
+
+  function normalizeHeader(h) {
+    return String(h || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  }
+
+  function parseCsv(text) {
+    const rows = [];
+    let row = [], field = '', inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      const n = text[i + 1];
+      if (inQuotes) {
+        if (c === '"' && n === '"') { field += '"'; i++; }
+        else if (c === '"') inQuotes = false;
+        else field += c;
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+        else if (c !== '\r') field += c;
+      }
+    }
+    row.push(field);
+    if (row.length > 1 || row[0] !== '') rows.push(row);
+    const headers = (rows.shift() || []).map(h => String(h || '').trim());
+    const objects = rows.filter(r => r.some(v => String(v || '').trim() !== '')).map(r => {
+      const obj = {};
+      headers.forEach((h, i) => { obj[h] = r[i] == null ? '' : r[i]; });
+      return obj;
+    });
+    return { headers, rows: objects };
+  }
+
+  function findCol(headers, aliases) {
+    const normalized = headers.map(h => ({ raw: h, key: normalizeHeader(h) }));
+    for (const alias of aliases) {
+      const key = normalizeHeader(alias);
+      const found = normalized.find(h => h.key === key);
+      if (found) return found.raw;
+    }
+    for (const alias of aliases) {
+      const key = normalizeHeader(alias);
+      const found = normalized.find(h => h.key.indexOf(key) !== -1 || key.indexOf(h.key) !== -1);
+      if (found) return found.raw;
+    }
+    return null;
+  }
+
+  function parseFlexibleDate(value) {
+    const raw = String(value || '').trim();
+    if (!raw) return null;
+    let d = new Date(raw);
+    if (!isNaN(d.getTime())) return d;
+    const months = { jan:0, january:0, feb:1, february:1, mar:2, march:2, apr:3, april:3, may:4, jun:5, june:5, jul:6, july:6, aug:7, august:7, sep:8, sept:8, september:8, oct:9, october:9, nov:10, november:10, dec:11, december:11 };
+    let m = raw.match(/^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})(?:,\s*)?(\d{1,2})?:?(\d{2})?/);
+    if (m) return new Date(Number(m[3]), months[m[2].toLowerCase()] || 0, Number(m[1]), Number(m[4] || 0), Number(m[5] || 0));
+    m = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[ T](\d{1,2}):(\d{2}))?/);
+    if (m) return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]), Number(m[4] || 0), Number(m[5] || 0));
+    return null;
+  }
+
+  function parseNumber(v) {
+    if (v == null || v === '') return null;
+    const n = parseFloat(String(v).replace(/,/g, '').trim());
+    return isNaN(n) ? null : n;
+  }
+
+  function parseHevyCsv(text, options) {
+    const parsed = parseCsv(text);
+    const headers = parsed.headers;
+    const cols = {
+      workoutName: findCol(headers, ['Workout Name','title','workout_title','name']),
+      date: findCol(headers, ['Date','day']),
+      startTime: findCol(headers, ['Start Time','start_time','started_at']),
+      endTime: findCol(headers, ['End Time','end_time','ended_at']),
+      notes: findCol(headers, ['Notes','description','workout_notes']),
+      exerciseName: findCol(headers, ['Exercise Name','exercise_title','exercise','movement']),
+      exerciseId: findCol(headers, ['Exercise ID','exercise_id']),
+      supersetId: findCol(headers, ['Superset','superset_id','circuit','superset or circuit information']),
+      exerciseNotes: findCol(headers, ['Exercise Notes','exercise_notes']),
+      setNumber: findCol(headers, ['Set Number','set_index','set','set_number']),
+      setType: findCol(headers, ['Set Type','set_type','type']),
+      weight: findCol(headers, ['Weight','weight_lbs','weight_kg','weight_lb']),
+      reps: findCol(headers, ['Reps','repetitions']),
+      distance: findCol(headers, ['Distance','distance_km','distance_mi','distance']),
+      duration: findCol(headers, ['Duration','duration_seconds','duration_sec']),
+      rpe: findCol(headers, ['RPE','rate_of_perceived_exertion'])
+    };
+    const weightHeader = normalizeHeader(cols.weight || '');
+    let detectedUnit = weightHeader.indexOf('kg') !== -1 ? 'kg' : (weightHeader.indexOf('lb') !== -1 || weightHeader.indexOf('lbs') !== -1 ? 'lb' : state.units);
+    const optionUnit = options && options.unit && options.unit !== 'auto' ? options.unit : null;
+    const weightUnit = optionUnit || detectedUnit;
+    const skipped = [];
+    const grouped = {};
+    parsed.rows.forEach((row, idx) => {
+      const exerciseName = String(row[cols.exerciseName] || '').trim();
+      if (!exerciseName) { skipped.push({ row: idx + 2, reason: 'Missing exercise name' }); return; }
+      const start = parseFlexibleDate(row[cols.startTime] || row[cols.date]);
+      if (!start) { skipped.push({ row: idx + 2, reason: 'Missing date/start time' }); return; }
+      const end = parseFlexibleDate(row[cols.endTime]) || null;
+      const workoutName = String(row[cols.workoutName] || 'Hevy Workout').trim() || 'Hevy Workout';
+      const dateKey = fitDateKey(start);
+      const groupKey = dateKey + '|' + workoutName + '|' + start.toISOString();
+      if (!grouped[groupKey]) {
+        grouped[groupKey] = {
+          id: fitId('hevy'),
+          source: 'hevy',
+          sourceId: 'hevy|' + groupKey,
+          date: dateKey,
+          startTime: start.toISOString(),
+          endTime: end ? end.toISOString() : '',
+          duration: end ? Math.max(0, Math.round((end - start) / 1000)) : '',
+          name: workoutName,
+          notes: String(row[cols.notes] || '').trim(),
+          gym: '',
+          dayType: '',
+          exercises: []
+        };
+      }
+      const workout = grouped[groupKey];
+      const norm = fitNormalizeName(exerciseName);
+      const meta = fitExerciseMeta(exerciseName);
+      let ex = workout.exercises.find(e => e.normalizedName === norm);
+      if (!ex) {
+        ex = {
+          id: fitId('hex'),
+          name: exerciseName,
+          normalizedName: norm,
+          category: meta.category,
+          muscleGroups: meta.muscleGroups,
+          type: meta.type,
+          hevyExerciseId: cols.exerciseId ? String(row[cols.exerciseId] || '') : '',
+          notes: String(row[cols.exerciseNotes] || '').trim(),
+          sets: []
+        };
+        workout.exercises.push(ex);
+      }
+      const rawSet = parseNumber(row[cols.setNumber]);
+      const headerSet = normalizeHeader(cols.setNumber || '');
+      const setNumber = rawSet == null ? ex.sets.length + 1 : (headerSet === 'set_index' ? rawSet + 1 : rawSet);
+      const reps = parseNumber(row[cols.reps]);
+      const weight = parseNumber(row[cols.weight]) || 0;
+      const durationSeconds = parseNumber(row[cols.duration]);
+      const distanceRaw = parseNumber(row[cols.distance]);
+      let distanceKm = distanceRaw;
+      const distanceHeader = normalizeHeader(cols.distance || '');
+      if (distanceKm != null && distanceHeader.indexOf('mi') !== -1) distanceKm = distanceKm * 1.60934;
+      if (!reps && !durationSeconds && !distanceKm && !weight) { skipped.push({ row: idx + 2, reason: 'Empty set data' }); return; }
+      ex.sets.push({
+        id: fitId('hset'),
+        setNumber,
+        weight,
+        weightUnit,
+        reps: reps || 0,
+        rpe: parseNumber(row[cols.rpe]),
+        notes: String(row[cols.notes] || '').trim(),
+        setType: String(row[cols.setType] || 'normal').trim() || 'normal',
+        source: 'hevy',
+        date: start.toISOString(),
+        durationSeconds: durationSeconds || 0,
+        distanceKm: distanceKm || 0,
+        supersetId: cols.supersetId ? String(row[cols.supersetId] || '') : ''
+      });
+    });
+    const workouts = Object.values(grouped).sort((a,b) => String(a.startTime).localeCompare(String(b.startTime)));
+    const sets = workouts.reduce((sum, w) => sum + workoutTotals(w).sets, 0);
+    const exercises = new Set();
+    workouts.forEach(w => w.exercises.forEach(ex => exercises.add(ex.normalizedName)));
+    const dates = workouts.map(w => w.date).sort();
+    const duplicateCount = countDuplicateSets(workouts);
+    return {
+      provider: 'hevy',
+      workouts,
+      skipped,
+      detectedUnit,
+      unit: weightUnit,
+      columns: cols,
+      summary: {
+        workouts: workouts.length,
+        sets,
+        exercises: exercises.size,
+        dateStart: dates[0] || '',
+        dateEnd: dates[dates.length - 1] || '',
+        duplicates: duplicateCount
+      }
+    };
+  }
+
+  function setDuplicateKey(workout, exercise, set) {
+    return [
+      workout.date || '',
+      fitNormalizeName(workout.name || ''),
+      exercise.normalizedName || fitNormalizeName(exercise.name || ''),
+      set.setNumber == null ? '' : set.setNumber,
+      fitRound(set.weight || 0, 3),
+      set.weightUnit || state.units,
+      set.reps || 0,
+      set.source || workout.source || ''
+    ].join('|');
+  }
+
+  function existingSetIndex() {
+    const index = new Map();
+    (state.workouts || []).forEach(w => {
+      (w.exercises || []).forEach(ex => {
+        (ex.sets || []).forEach(set => {
+          index.set(setDuplicateKey(w, ex, set), { workout: w, exercise: ex, set });
+        });
+      });
+    });
+    return index;
+  }
+
+  function countDuplicateSets(workouts) {
+    const index = existingSetIndex();
+    let count = 0;
+    workouts.forEach(w => (w.exercises || []).forEach(ex => (ex.sets || []).forEach(set => {
+      if (index.has(setDuplicateKey(w, ex, set))) count++;
+    })));
+    return count;
+  }
+
+  function importPendingHevy() {
+    if (!pendingHevyImport || !pendingHevyImport.workouts) return null;
+    const existing = existingSetIndex();
+    let newWorkouts = 0, newSets = 0, duplicateSets = 0, updatedSets = 0;
+    const skipped = pendingHevyImport.skipped.slice(0);
+    pendingHevyImport.workouts.forEach(incoming => {
+      let target = (state.workouts || []).find(w => w.source === 'hevy' && (w.sourceId === incoming.sourceId || (w.date === incoming.date && fitNormalizeName(w.name) === fitNormalizeName(incoming.name))));
+      if (!target) {
+        state.workouts.push(incoming);
+        newWorkouts++;
+        newSets += workoutTotals(incoming).sets;
+        incoming.exercises.forEach(ex => fitEnsureExerciseInDb(ex.name, ex));
+        return;
+      }
+      target.startTime = incoming.startTime || target.startTime;
+      target.endTime = incoming.endTime || target.endTime;
+      target.duration = incoming.duration || target.duration;
+      target.notes = incoming.notes || target.notes;
+      incoming.exercises.forEach(inEx => {
+        let targetEx = target.exercises.find(ex => ex.normalizedName === inEx.normalizedName);
+        if (!targetEx) {
+          target.exercises.push(inEx);
+          newSets += inEx.sets.length;
+          fitEnsureExerciseInDb(inEx.name, inEx);
+          return;
+        }
+        inEx.sets.forEach(inSet => {
+          const key = setDuplicateKey(incoming, inEx, inSet);
+          const hit = existing.get(key);
+          if (!hit) {
+            targetEx.sets.push(inSet);
+            newSets++;
+            return;
+          }
+          const currentJson = JSON.stringify(hit.set);
+          const incomingJson = JSON.stringify(Object.assign({}, hit.set, {
+            rpe: inSet.rpe,
+            notes: inSet.notes,
+            setType: inSet.setType,
+            durationSeconds: inSet.durationSeconds,
+            distanceKm: inSet.distanceKm,
+            supersetId: inSet.supersetId
+          }));
+          if (currentJson !== incomingJson) {
+            Object.assign(hit.set, {
+              rpe: inSet.rpe,
+              notes: inSet.notes,
+              setType: inSet.setType,
+              durationSeconds: inSet.durationSeconds,
+              distanceKm: inSet.distanceKm,
+              supersetId: inSet.supersetId
+            });
+            updatedSets++;
+          } else {
+            duplicateSets++;
+          }
+        });
+      });
+    });
+    const allHevy = (state.workouts || []).filter(w => w.source === 'hevy');
+    const dateRange = allHevy.map(w => w.date).sort();
+    state.hevyImports.push({
+      id: fitId('import'),
+      importedAt: new Date().toISOString(),
+      source: 'Hevy CSV',
+      fileName: pendingHevyImport.fileName || '',
+      summary: pendingHevyImport.summary
+    });
+    state.hevySyncMetadata = {
+      lastSyncDate: new Date().toISOString(),
+      totalSyncedWorkouts: allHevy.length,
+      totalSyncedSets: allHevy.reduce((s, w) => s + workoutTotals(w).sets, 0),
+      dateStart: dateRange[0] || '',
+      dateEnd: dateRange[dateRange.length - 1] || '',
+      source: 'Hevy CSV',
+      lastNewWorkouts: newWorkouts,
+      lastNewSets: newSets,
+      lastDuplicateSets: duplicateSets,
+      lastUpdatedSets: updatedSets,
+      lastSkippedRows: skipped.length
+    };
+    state.personalRecords = computePersonalRecords(getAllWorkouts());
+    saveState();
+    const message = 'Imported ' + newWorkouts + ' workouts and ' + newSets + ' sets successfully.';
+    pendingHevyImport = null;
+    renderHevyPreview();
+    renderAll();
+    showHevyStatus(message + (skipped.length ? ' Skipped ' + skipped.length + ' rows.' : ''), 100);
+    return state.hevySyncMetadata;
+  }
+
+  function showHevyStatus(message, progress) {
+    const status = $('hevyImportStatus');
+    if (status) status.textContent = message;
+    const bar = $('hevyProgressBar');
+    if (bar) bar.style.width = (progress || 0) + '%';
+  }
+
+  function renderHevyPreview() {
+    const wrap = $('hevyPreview');
+    const source = $('hevyPreviewSource');
+    const confirm = $('hevyConfirmImport');
+    if (!wrap || !confirm) return;
+    if (!pendingHevyImport) {
+      wrap.innerHTML = '<div class="fit-empty">Import your Hevy workout history to get started.</div>';
+      source.textContent = 'waiting';
+      confirm.disabled = true;
+      return;
+    }
+    const s = pendingHevyImport.summary;
+    source.textContent = pendingHevyImport.fileName || 'CSV';
+    confirm.disabled = false;
+    wrap.innerHTML = [
+      previewRow('Found workouts', s.workouts),
+      previewRow('Found sets', s.sets.toLocaleString()),
+      previewRow('Unique exercises', s.exercises),
+      previewRow('Date range', (s.dateStart || '—') + ' to ' + (s.dateEnd || '—')),
+      previewRow('Possible duplicates found', s.duplicates),
+      previewRow('Unit detected', pendingHevyImport.detectedUnit + ' (importing as ' + pendingHevyImport.unit + ')'),
+      previewRow('Skipped rows', pendingHevyImport.skipped.length)
+    ].join('');
+  }
+
+  function previewRow(label, value) {
+    return '<div class="fit-row"><div class="fit-row-head"><span class="fit-row-title">' + escape(label) + '</span><span class="fit-pill">' + value + '</span></div></div>';
+  }
+
+  function renderHevySyncStatus() {
+    const wrap = $('hevySyncStatus');
+    if (!wrap) return;
+    const meta = state.hevySyncMetadata || {};
+    if (!meta.lastSyncDate) {
+      wrap.innerHTML = '<div class="fit-empty">No Hevy CSV has been synced yet.</div>';
+      return;
+    }
+    wrap.innerHTML =
+      '<div class="fit-row"><div class="fit-row-title">Last synced: ' + fitFormatDate(meta.lastSyncDate) + '</div>' +
+      '<div class="fit-row-meta">' + (meta.lastNewWorkouts || 0) + ' new workouts imported · ' + (meta.lastDuplicateSets || 0) + ' duplicate sets skipped · ' + (meta.lastUpdatedSets || 0) + ' changed sets updated</div></div>' +
+      '<div class="fit-grid">' +
+      metricHTML('Synced workouts', meta.totalSyncedWorkouts || 0, 'Source: Hevy CSV') +
+      metricHTML('Synced sets', (meta.totalSyncedSets || 0).toLocaleString(), (meta.dateStart || '—') + ' to ' + (meta.dateEnd || '—')) +
+      '</div>';
+  }
+
+  async function handleHevyFile(file) {
+    if (!file) return;
+    $('hevyFileLabel').value = file.name;
+    showHevyStatus('Reading ' + file.name + '...', 10);
+    const text = await file.text();
+    showHevyStatus('Parsing CSV...', 45);
+    setTimeout(() => {
+      try {
+        const unitChoice = $('hevyUnitConfirm').value;
+        pendingHevyImport = importProviders.hevy.parse(text, { unit: unitChoice });
+        pendingHevyImport.fileName = file.name;
+        showHevyStatus('Preview ready: found ' + pendingHevyImport.summary.workouts + ' workouts and ' + pendingHevyImport.summary.sets.toLocaleString() + ' sets.', 100);
+        $('hevyUnitConfirm').value = pendingHevyImport.detectedUnit || 'auto';
+        renderHevyPreview();
+      } catch (err) {
+        pendingHevyImport = null;
+        showHevyStatus('Import failed: ' + err.message, 0);
+        renderHevyPreview();
+      }
+    }, 20);
+  }
+
+  function renderWorkoutHistory() {
+    const wrap = $('workoutHistoryList');
+    if (!wrap) return;
+    const q = String($('workoutSearch') ? $('workoutSearch').value : '').toLowerCase().trim();
+    const source = $('workoutSourceFilter') ? $('workoutSourceFilter').value : 'all';
+    const range = $('workoutRangeFilter') ? $('workoutRangeFilter').value : 'all';
+    let workouts = getAllWorkouts().slice().reverse();
+    workouts = workoutsInRange(workouts, range);
+    workouts = workouts.filter(w => source === 'all' || w.source === source);
+    if (q) workouts = workouts.filter(w => {
+      const hay = [w.name, w.date, w.source, (w.exercises || []).map(e => e.name).join(' ')].join(' ').toLowerCase();
+      return hay.indexOf(q) !== -1;
+    });
+    if (!workouts.length) {
+      wrap.innerHTML = '<div class="fit-empty">No workouts found yet.</div>';
+      return;
+    }
+    wrap.innerHTML = workouts.slice(0, 80).map(w => {
+      const t = workoutTotals(w);
+      const names = (w.exercises || []).map(e => e.name).slice(0, 4).join(', ') + ((w.exercises || []).length > 4 ? '...' : '');
+      const prs = workoutPrs(w).length;
+      return '<div class="fit-row clickable" data-workout-id="' + escape(w.id) + '">' +
+        '<div class="fit-row-head"><span class="fit-row-title">' + escape(w.name || 'Workout') + '</span><span class="fit-pill ' + (w.source === 'hevy' ? 'good' : '') + '">' + escape(w.source || 'manual') + '</span></div>' +
+        '<div class="fit-row-meta">' + fitFormatDate(w.date) + ' · ' + t.sets + ' sets · ' + Math.round(t.volume).toLocaleString() + ' ' + state.units + (prs ? ' · ' + prs + ' PRs' : '') + '</div>' +
+        '<div class="fit-row-meta">' + escape(names || 'No exercises') + '</div></div>';
+    }).join('');
+    wrap.querySelectorAll('[data-workout-id]').forEach(row => row.addEventListener('click', () => openWorkoutDetail(row.dataset.workoutId)));
+  }
+
+  function renderExerciseDatabase() {
+    const wrap = $('exerciseDbList');
+    if (!wrap) return;
+    const q = String($('exerciseDbSearch') ? $('exerciseDbSearch').value : '').toLowerCase().trim();
+    const type = $('exerciseDbType') ? $('exerciseDbType').value : 'all';
+    let list = (state.exerciseDatabase || []).slice().sort((a,b) => a.name.localeCompare(b.name));
+    if (type !== 'all') list = list.filter(e => e.type === type);
+    if (q) list = list.filter(e => [e.name, e.category, e.type, (e.muscleGroups || []).join(' '), (e.aliases || []).join(' ')].join(' ').toLowerCase().indexOf(q) !== -1);
+    if (!list.length) {
+      wrap.innerHTML = '<div class="fit-empty">No exercises found.</div>';
+      return;
+    }
+    wrap.innerHTML = list.slice(0, 120).map(e => {
+      const aliases = (e.aliases || []).slice(0, 3).join(', ');
+      return '<div class="fit-row clickable" data-exercise-name="' + escape(e.name) + '">' +
+        '<div class="fit-row-head"><span class="fit-row-title">' + escape(e.name) + '</span><span class="fit-pill">' + escape(e.type || 'exercise') + '</span></div>' +
+        '<div class="fit-row-meta">' + escape((e.muscleGroups || []).join(', ') || e.category || 'other') + (aliases ? ' · aliases: ' + escape(aliases) : '') + '</div></div>';
+    }).join('');
+    wrap.querySelectorAll('[data-exercise-name]').forEach(row => row.addEventListener('click', () => openExerciseDetail(row.dataset.exerciseName)));
+  }
+
+  function computePersonalRecords(workouts) {
+    workouts = workouts || getAllWorkouts();
+    const records = {};
+    const feed = [];
+    flattenWorkoutSets(workouts).sort((a,b) => new Date(a.set.date || a.workout.startTime || a.workout.date) - new Date(b.set.date || b.workout.startTime || b.workout.date)).forEach(item => {
+      const name = item.exercise.name;
+      const norm = item.exercise.normalizedName || fitNormalizeName(name);
+      const set = item.set;
+      const date = (set.date || item.workout.startTime || item.workout.date || '').slice(0, 10);
+      if (!records[norm]) records[norm] = { exercise: name, normalizedName: norm, heaviest: null, reps: null, estimated1rm: null, volume: null, cardioDistance: null, cardioDuration: null, history: [] };
+      const rec = records[norm];
+      const weight = fitUnitWeight(set.weight || 0, set.weightUnit || state.units, state.units);
+      const reps = Number(set.reps) || 0;
+      const volume = weight * reps;
+      const oneRm = weight > 0 && reps > 0 ? estimate1RM(weight, reps) : 0;
+      const candidates = [
+        { key: 'heaviest', value: weight, label: fitRound(weight, 1) + ' ' + state.units, valid: weight > 0 },
+        { key: 'reps', value: reps, label: reps + ' reps', valid: reps > 0 },
+        { key: 'estimated1rm', value: oneRm, label: Math.round(oneRm) + ' ' + state.units + ' est. 1RM', valid: oneRm > 0 },
+        { key: 'volume', value: volume, label: Math.round(volume).toLocaleString() + ' ' + state.units + ' volume', valid: volume > 0 },
+        { key: 'cardioDistance', value: Number(set.distanceKm) || 0, label: fitRound(set.distanceKm, 2) + ' km', valid: Number(set.distanceKm) > 0 },
+        { key: 'cardioDuration', value: Number(set.durationSeconds) || 0, label: Math.round((Number(set.durationSeconds) || 0) / 60) + ' min', valid: Number(set.durationSeconds) > 0 }
+      ];
+      candidates.forEach(c => {
+        if (!c.valid) return;
+        if (!rec[c.key] || c.value > rec[c.key].value) {
+          rec[c.key] = { value: c.value, label: c.label, date, workoutId: item.workout.id, source: item.workout.source };
+          const feedItem = { exercise: rec.exercise, type: c.key, label: c.label, date, workoutId: item.workout.id, source: item.workout.source };
+          rec.history.push(feedItem);
+          feed.push(feedItem);
+        }
+      });
+    });
+    return { byExercise: records, feed: feed.sort((a,b) => String(b.date).localeCompare(String(a.date))) };
+  }
+
+  function workoutPrs(workout) {
+    const all = getAllWorkouts().filter(w => String(w.date || '') <= String(workout.date || ''));
+    return computePersonalRecords(all).feed.filter(pr => pr.workoutId === workout.id);
+  }
+
+  function renderRecords() {
+    const wrap = $('prFeed');
+    const recWrap = $('exerciseRecords');
+    const summary = $('recordsSummary');
+    if (!wrap || !recWrap || !summary) return;
+    const records = computePersonalRecords(getAllWorkouts());
+    state.personalRecords = records;
+    const feed = records.feed;
+    const all = Object.values(records.byExercise);
+    summary.innerHTML = [
+      metricHTML('Exercises', all.length, 'with records'),
+      metricHTML('PR events', feed.length, 'tracked automatically'),
+      metricHTML('Recent PR', feed[0] ? escape(feed[0].exercise) : '—', feed[0] ? feed[0].label : 'No PRs yet'),
+      metricHTML('Sources', new Set(getAllWorkouts().map(w => w.source)).size, 'Hevy, manual, coach')
+    ].join('');
+    wrap.innerHTML = feed.length ? feed.slice(0, 40).map(pr =>
+      '<div class="fit-row fit-pr-new"><div class="fit-row-head"><span class="fit-row-title">' + escape(pr.exercise) + '</span><span class="fit-pill good">PR</span></div><div class="fit-row-meta">' + escape(pr.label) + ' · ' + fitFormatDate(pr.date) + ' · ' + escape(pr.source || '') + '</div></div>'
+    ).join('') : '<div class="fit-empty">No PRs yet — log or import workouts to begin.</div>';
+    recWrap.innerHTML = all.length ? all.sort((a,b) => a.exercise.localeCompare(b.exercise)).map(rec => {
+      const best = rec.estimated1rm || rec.heaviest || rec.reps || rec.cardioDistance || rec.cardioDuration;
+      return '<div class="fit-row clickable" data-exercise-name="' + escape(rec.exercise) + '"><div class="fit-row-head"><span class="fit-row-title">' + escape(rec.exercise) + '</span><span class="fit-pill">' + (best ? escape(best.label) : '—') + '</span></div><div class="fit-row-meta">Heaviest ' + (rec.heaviest ? rec.heaviest.label : '—') + ' · reps ' + (rec.reps ? rec.reps.label : '—') + ' · volume ' + (rec.volume ? rec.volume.label : '—') + '</div></div>';
+    }).join('') : '<div class="fit-empty">No exercise records yet.</div>';
+    recWrap.querySelectorAll('[data-exercise-name]').forEach(row => row.addEventListener('click', () => openExerciseDetail(row.dataset.exerciseName)));
+  }
+
+  function renderAnalytics() {
+    const workouts = workoutsInRange(getAllWorkouts(), $('analyticsRange') ? $('analyticsRange').value : '90');
+    const totals = workouts.reduce((a, w) => {
+      const t = workoutTotals(w);
+      a.volume += t.volume; a.sets += t.sets; a.reps += t.reps;
+      if (t.averageRpe != null) { a.rpe += t.averageRpe; a.rpeCount++; }
+      return a;
+    }, { volume:0, sets:0, reps:0, rpe:0, rpeCount:0 });
+    const summary = $('analyticsSummary');
+    if (summary) summary.innerHTML = [
+      metricHTML('Workouts', workouts.length, 'selected range'),
+      metricHTML('Volume', Math.round(totals.volume).toLocaleString(), state.units),
+      metricHTML('Avg RPE', totals.rpeCount ? fitRound(totals.rpe / totals.rpeCount, 1) : '—', 'logged intensity')
+    ].join('');
+    renderBarChart('volumeChart', groupWeekly(workouts, w => workoutTotals(w).volume), state.units);
+    renderBarChart('frequencyChart', groupWeekly(workouts, () => 1), 'workouts');
+    renderMuscleBalance(workouts);
+    renderStrengthProgression(workouts);
+    renderIntensity(workouts);
+    renderHealthCorrelations(workouts);
+  }
+
+  function groupWeekly(workouts, valueFn) {
+    const map = {};
+    workouts.forEach(w => {
+      const key = fitDateKey(weekStart(new Date(w.date || w.startTime)));
+      map[key] = (map[key] || 0) + valueFn(w);
+    });
+    return Object.entries(map).sort((a,b) => a[0].localeCompare(b[0])).slice(-16).map(([date, value]) => ({ label: date.slice(5), value }));
+  }
+
+  function renderBarChart(id, data, unitLabel) {
+    const el = $(id);
+    if (!el) return;
+    if (!data.length) { el.innerHTML = '<div class="fit-chart-empty">No chart data yet.</div>'; return; }
+    const W = 320, H = 150, pad = 26;
+    const max = Math.max.apply(null, data.map(d => d.value)) || 1;
+    const bw = (W - pad * 2) / data.length;
+    let html = '<svg class="fit-chart" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none">';
+    html += '<line class="grid" x1="' + pad + '" y1="20" x2="' + (W-pad) + '" y2="20"></line><line class="grid" x1="' + pad + '" y1="118" x2="' + (W-pad) + '" y2="118"></line>';
+    data.forEach((d, i) => {
+      const h = Math.max(2, (H - 52) * (d.value / max));
+      const x = pad + i * bw + 2;
+      const y = H - 32 - h;
+      html += '<rect class="bar" x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + Math.max(3, bw - 4).toFixed(1) + '" height="' + h.toFixed(1) + '" rx="3"></rect>';
+    });
+    html += '<text x="' + pad + '" y="140">' + escape(data[0].label) + '</text><text x="' + (W-pad-42) + '" y="140">' + escape(data[data.length - 1].label) + '</text><text x="' + pad + '" y="14">' + Math.round(max).toLocaleString() + ' ' + escape(unitLabel || '') + '</text></svg>';
+    el.innerHTML = html;
+  }
+
+  function renderLineChart(id, data, unitLabel) {
+    const el = $(id);
+    if (!el) return;
+    if (data.length < 2) { el.innerHTML = '<div class="fit-chart-empty">Need more sessions for this chart.</div>'; return; }
+    const W = 320, H = 150, pad = 28;
+    const vals = data.map(d => d.value);
+    const min = Math.min.apply(null, vals), max = Math.max.apply(null, vals), range = max - min || 1;
+    const pts = data.map((d, i) => {
+      const x = pad + (W - pad * 2) * (i / (data.length - 1));
+      const y = H - 32 - (H - 58) * ((d.value - min) / range);
+      return [x, y];
+    });
+    const path = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+    let html = '<svg class="fit-chart" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none">';
+    html += '<line class="grid" x1="' + pad + '" y1="20" x2="' + (W-pad) + '" y2="20"></line><line class="grid" x1="' + pad + '" y1="118" x2="' + (W-pad) + '" y2="118"></line>';
+    html += '<path class="line" d="' + path + '"></path><text x="' + pad + '" y="14">' + Math.round(max).toLocaleString() + ' ' + escape(unitLabel || '') + '</text></svg>';
+    el.innerHTML = html;
+  }
+
+  function renderMuscleBalance(workouts) {
+    const counts = {};
+    flattenWorkoutSets(workouts).forEach(({ exercise }) => {
+      const meta = fitExerciseMeta(exercise.name);
+      (meta.muscleGroups || ['other']).forEach(m => { counts[m] = (counts[m] || 0) + 1; });
+    });
+    const data = Object.entries(counts).sort((a,b) => b[1] - a[1]).slice(0, 8).map(([label, value]) => ({ label, value }));
+    renderBarChart('muscleChart', data, 'sets');
+    const recs = $('muscleRecommendations');
+    if (!recs) return;
+    if (data.length < 2) { recs.innerHTML = '<div class="fit-empty">More workouts will unlock balance recommendations.</div>'; return; }
+    const top = data[0], low = data[data.length - 1];
+    const ratio = low.value ? top.value / low.value : top.value;
+    recs.innerHTML = ratio >= 3
+      ? '<div class="fit-row"><div class="fit-row-title">Balance note</div><div class="fit-row-meta">You trained ' + escape(top.label) + ' about ' + fitRound(ratio, 1) + 'x more than ' + escape(low.label) + ' in this range.</div></div>'
+      : '<div class="fit-row"><div class="fit-row-title">Balance note</div><div class="fit-row-meta">Muscle group spread looks reasonably balanced for this range.</div></div>';
+  }
+
+  function renderStrengthProgression(workouts) {
+    const big = ['squat','bench press','deadlift','overhead press','pull up'];
+    const points = [];
+    flattenWorkoutSets(workouts).forEach(({ workout, exercise, set }) => {
+      const norm = exercise.normalizedName || fitNormalizeName(exercise.name);
+      if (!big.some(b => norm.indexOf(b) !== -1 || b.indexOf(norm) !== -1)) return;
+      const weight = fitUnitWeight(set.weight || 0, set.weightUnit || state.units, state.units);
+      const reps = Number(set.reps) || 0;
+      if (!weight || !reps) return;
+      points.push({ label: workout.date.slice(5), value: estimate1RM(weight, reps) });
+    });
+    renderLineChart('strengthChart', points.slice(-30), state.units + ' est. 1RM');
+  }
+
+  function renderIntensity(workouts) {
+    const points = workouts.map(w => {
+      const t = workoutTotals(w);
+      return t.averageRpe == null ? null : { label: w.date.slice(5), value: t.averageRpe };
+    }).filter(Boolean);
+    renderLineChart('intensityChart', points.slice(-30), 'RPE');
+  }
+
+  function renderHealthCorrelations(workouts) {
+    const wrap = $('healthCorrelationList');
+    if (!wrap) return;
+    const health = state.healthData || {};
+    const sleep = health.sleep || [];
+    const nutrition = health.nutrition || [];
+    const glucose = health.glucose || [];
+    const items = [];
+    const cardioCount = workouts.filter(w => (w.exercises || []).some(ex => fitExerciseMeta(ex.name).type === 'cardio')).length;
+    const liftCount = workouts.length - cardioCount;
+    if (glucose.length) items.push('Glucose curves are available for workout windows; patterns are shown as trends, not medical instructions.');
+    else items.push('Connect Dexcom/glucose data to see pre-, during-, and post-workout patterns.');
+    if (cardioCount) items.push('Cardio sessions can be compared separately because glucose often behaves differently than lifting.');
+    if (liftCount) items.push('Strength sessions are grouped for delayed glucose-rise pattern checks.');
+    if (sleep.length) items.push('Sleep entries can be compared against volume and PR rate.');
+    else items.push('Sleep correlation ready when sleep logs are present.');
+    if (nutrition.length) items.push('Nutrition correlation ready for calories, protein, carbs, and hydration entries.');
+    else items.push('Nutrition correlation ready when food or macro logs are present.');
+    wrap.innerHTML = items.map(txt => '<div class="fit-row"><div class="fit-row-meta">' + escape(txt) + '</div></div>').join('');
+  }
+
+  function renderCalendar() {
+    const grid = $('workoutCalendar');
+    if (!grid) return;
+    const title = $('calendarTitle');
+    const d = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth(), 1);
+    const month = d.getMonth(), year = d.getFullYear();
+    title.textContent = ['January','February','March','April','May','June','July','August','September','October','November','December'][month] + ' ' + year;
+    const workouts = getAllWorkouts();
+    const byDay = {};
+    const prs = computePersonalRecords(workouts).feed.reduce((set, pr) => { set.add(pr.date); return set; }, new Set());
+    workouts.forEach(w => { if (!byDay[w.date]) byDay[w.date] = []; byDay[w.date].push(w); });
+    const firstDow = d.getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    let html = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(x => '<div class="fit-cal-dow">' + x + '</div>').join('');
+    for (let i = 0; i < firstDow; i++) html += '<button class="fit-cal-day is-empty" type="button" disabled></button>';
+    for (let day = 1; day <= daysInMonth; day++) {
+      const key = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+      const list = byDay[key] || [];
+      const hasCardio = list.some(w => (w.exercises || []).some(ex => fitExerciseMeta(ex.name).type === 'cardio'));
+      const hasPr = prs.has(key);
+      html += '<button class="fit-cal-day ' + (list.length ? 'has-workout ' : '') + (hasCardio ? 'has-cardio ' : '') + (hasPr ? 'has-pr' : '') + '" type="button" data-date="' + key + '">' +
+        '<span class="fit-cal-num">' + day + '</span>' +
+        (list.length ? '<span class="fit-cal-dot"></span>' : '') +
+        (hasCardio ? '<span class="fit-cal-dot cardio"></span>' : '') +
+        (hasPr ? '<span class="fit-cal-dot pr"></span>' : '') +
+        '</button>';
+    }
+    grid.innerHTML = html;
+    grid.querySelectorAll('[data-date]').forEach(btn => btn.addEventListener('click', () => {
+      calendarSelectedKey = btn.dataset.date;
+      renderCalendarDay();
+    }));
+    renderCalendarDay();
+  }
+
+  function renderCalendarDay() {
+    const wrap = $('calendarDayWorkouts');
+    const label = $('calendarSelectedLabel');
+    if (!wrap || !label) return;
+    label.textContent = fitFormatDate(calendarSelectedKey);
+    const list = getAllWorkouts().filter(w => w.date === calendarSelectedKey).reverse();
+    if (!list.length) { wrap.innerHTML = '<div class="fit-empty">No workouts found yet.</div>'; return; }
+    wrap.innerHTML = list.map(w => {
+      const t = workoutTotals(w);
+      return '<div class="fit-row clickable" data-workout-id="' + escape(w.id) + '"><div class="fit-row-head"><span class="fit-row-title">' + escape(w.name) + '</span><span class="fit-pill">' + escape(w.source) + '</span></div><div class="fit-row-meta">' + t.sets + ' sets · ' + Math.round(t.volume).toLocaleString() + ' ' + state.units + '</div></div>';
+    }).join('');
+    wrap.querySelectorAll('[data-workout-id]').forEach(row => row.addEventListener('click', () => openWorkoutDetail(row.dataset.workoutId)));
+  }
+
+  function openWorkoutDetail(id) {
+    const workout = getAllWorkouts().find(w => w.id === id);
+    if (!workout) return;
+    const t = workoutTotals(workout);
+    const prs = workoutPrs(workout);
+    const previous = getAllWorkouts().filter(w => w.id !== workout.id && fitNormalizeName(w.name) === fitNormalizeName(workout.name) && w.date < workout.date).pop();
+    const prevText = previous ? 'Compared to previous same workout: ' + (Math.round(t.volume - workoutTotals(previous).volume)).toLocaleString() + ' ' + state.units + ' volume change.' : 'No previous same workout found.';
+    $('workoutDetailTitle').textContent = workout.name || 'Workout';
+    $('workoutDetailBody').innerHTML =
+      '<div class="fit-detail-grid">' +
+      metricHTML('Date', fitFormatDate(workout.date), workout.source || '') +
+      metricHTML('Volume', Math.round(t.volume).toLocaleString(), state.units) +
+      metricHTML('Sets', t.sets, t.reps + ' reps') +
+      metricHTML('Duration', workout.duration ? Math.round(Number(workout.duration) / 60) + ' min' : '—', (workout.startTime || '').slice(11,16) + (workout.endTime ? ' to ' + workout.endTime.slice(11,16) : '')) +
+      '</div>' +
+      '<div class="fit-row" style="margin-top:10px;"><div class="fit-row-meta">' + escape(prevText) + '</div></div>' +
+      (prs.length ? '<div class="fit-row" style="margin-top:10px;"><div class="fit-row-title">PRs achieved</div><div class="fit-row-meta">' + prs.map(p => escape(p.exercise + ' ' + p.label)).join('<br>') + '</div></div>' : '') +
+      (workout.notes ? '<div class="fit-row" style="margin-top:10px;"><div class="fit-row-title">Notes</div><div class="fit-row-meta">' + escape(workout.notes) + '</div></div>' : '') +
+      (workout.exercises || []).map(ex => '<div class="fit-row" style="margin-top:10px;"><div class="fit-row-head"><span class="fit-row-title">' + escape(ex.name) + '</span><button class="po-btn-secondary" type="button" data-ex-detail="' + escape(ex.name) + '">Details</button></div>' + setTable(ex.sets || []) + '</div>').join('');
+    $('workoutDetailBody').querySelectorAll('[data-ex-detail]').forEach(btn => btn.addEventListener('click', () => openExerciseDetail(btn.dataset.exDetail)));
+    $('workoutDetailModal').classList.add('show');
+  }
+
+  function setTable(sets) {
+    if (!sets.length) return '<div class="fit-row-meta">No sets.</div>';
+    return '<table class="fit-detail-table"><thead><tr><th>Set</th><th>Weight</th><th>Reps</th><th>RPE</th><th>Type</th></tr></thead><tbody>' +
+      sets.map(s => '<tr><td>' + escape(s.setNumber || '') + '</td><td>' + (s.weight ? fitRound(fitUnitWeight(s.weight, s.weightUnit || state.units, state.units), 1) + ' ' + state.units : '—') + '</td><td>' + (s.reps || '—') + '</td><td>' + (s.rpe == null || s.rpe === '' ? '—' : escape(s.rpe)) + '</td><td>' + escape(s.setType || '') + '</td></tr>').join('') +
+      '</tbody></table>';
+  }
+
+  function openExerciseDetail(name) {
+    activeExerciseDetailName = name;
+    const range = $('exerciseDetailRange') ? $('exerciseDetailRange').value : 'all';
+    const norm = fitNormalizeName(name);
+    const workouts = workoutsInRange(getAllWorkouts(), range);
+    const entries = flattenWorkoutSets(workouts).filter(x => (x.exercise.normalizedName || fitNormalizeName(x.exercise.name)) === norm);
+    $('exerciseDetailTitle').textContent = name;
+    if (!entries.length) {
+      $('exerciseDetailBody').innerHTML = '<div class="fit-empty">No sessions for this exercise yet.</div>';
+      $('exerciseDetailModal').classList.add('show');
+      return;
+    }
+    const dates = entries.map(e => e.workout.date).sort();
+    const totalVolume = entries.reduce((s, e) => s + fitSetVolume(e.set, state.units), 0);
+    const best = entries.reduce((acc, e) => {
+      const w = fitUnitWeight(e.set.weight || 0, e.set.weightUnit || state.units, state.units);
+      const r = Number(e.set.reps) || 0;
+      const orm = w && r ? estimate1RM(w, r) : 0;
+      return !acc || orm > acc.orm ? { set: e.set, workout: e.workout, orm, weight: w, reps: r } : acc;
+    }, null);
+    const sessionDays = new Set(entries.map(e => e.workout.date));
+    const points = entries.filter(e => e.set.weight && e.set.reps).map(e => ({ label: e.workout.date.slice(5), value: estimate1RM(fitUnitWeight(e.set.weight, e.set.weightUnit || state.units, state.units), e.set.reps) })).slice(-30);
+    const rx = (state.exercises || []).find(e => fitNormalizeName(e.name) === norm);
+    const rxText = rx ? (getRx(rx, getMergedLogsForExercise(rx.id)) || { reason: 'Log a top set to generate a next-session target.' }).reason : 'Add this exercise to the Coach to get a next-session recommendation.';
+    $('exerciseDetailBody').innerHTML =
+      '<div class="fit-detail-grid">' +
+      metricHTML('Sessions', sessionDays.size, 'total sessions') +
+      metricHTML('Sets', entries.length, 'all logged sets') +
+      metricHTML('Volume', Math.round(totalVolume).toLocaleString(), state.units) +
+      metricHTML('Best est. 1RM', best ? Math.round(best.orm) : '—', best ? best.weight + ' x ' + best.reps : '—') +
+      metricHTML('First', fitFormatDate(dates[0]), 'first performed') +
+      metricHTML('Recent', fitFormatDate(dates[dates.length - 1]), 'most recent') +
+      '</div><div class="fit-card tight" style="margin-top:10px;"><div class="fit-card-title"><h3>Estimated 1RM</h3><small>over time</small></div><div id="exerciseInlineChart"></div></div>' +
+      '<div class="fit-row"><div class="fit-row-title">Coach recommendation</div><div class="fit-row-meta">' + escape(rxText) + '</div></div>' +
+      '<div class="fit-row"><div class="fit-row-title">Recent sessions</div><div class="fit-row-meta">' + entries.slice(-8).reverse().map(e => fitFormatDate(e.workout.date) + ' · ' + e.exercise.name + ' · ' + (e.set.weight || 0) + ' x ' + (e.set.reps || 0)).join('<br>') + '</div></div>';
+    renderLineChart('exerciseInlineChart', points, state.units);
+    $('exerciseDetailModal').classList.add('show');
+  }
+
+  function openManualWorkoutModal() {
+    manualDraft = [{ name: '', sets: [{ weight: '', reps: '', rpe: '', notes: '', setType: 'normal' }] }];
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    $('manualWorkoutDate').value = now.toISOString().slice(0, 16);
+    $('manualWorkoutName').value = '';
+    $('manualWorkoutNotes').value = '';
+    renderManualDraft();
+    $('manualWorkoutModal').classList.add('show');
+  }
+
+  function renderManualDraft() {
+    const wrap = $('manualExercises');
+    if (!wrap) return;
+    wrap.innerHTML = manualDraft.map((ex, exIdx) => '<div class="fit-manual-exercise" data-ex-idx="' + exIdx + '">' +
+      '<div class="fit-import-row"><input class="fit-input" data-manual-ex-name="' + exIdx + '" value="' + escape(ex.name) + '" placeholder="Exercise name"><button class="po-btn-secondary" type="button" data-manual-remove-ex="' + exIdx + '">Remove</button></div>' +
+      '<div class="fit-manual-sets">' + ex.sets.map((s, setIdx) => '<div class="fit-manual-set"><input class="fit-input" value="' + (setIdx + 1) + '" readonly><input class="fit-input" data-manual-weight="' + exIdx + ':' + setIdx + '" value="' + escape(s.weight) + '" placeholder="Weight"><input class="fit-input" data-manual-reps="' + exIdx + ':' + setIdx + '" value="' + escape(s.reps) + '" placeholder="Reps"><input class="fit-input fit-rpe-input" data-manual-rpe="' + exIdx + ':' + setIdx + '" value="' + escape(s.rpe) + '" placeholder="RPE"></div>').join('') + '</div>' +
+      '<button class="po-add-row-btn" type="button" data-manual-add-set="' + exIdx + '">+ Add set</button></div>').join('');
+    wrap.querySelectorAll('[data-manual-ex-name]').forEach(input => input.addEventListener('input', () => manualDraft[Number(input.dataset.manualExName)].name = input.value));
+    wrap.querySelectorAll('[data-manual-weight]').forEach(input => input.addEventListener('input', () => { const [e,s] = input.dataset.manualWeight.split(':').map(Number); manualDraft[e].sets[s].weight = input.value; }));
+    wrap.querySelectorAll('[data-manual-reps]').forEach(input => input.addEventListener('input', () => { const [e,s] = input.dataset.manualReps.split(':').map(Number); manualDraft[e].sets[s].reps = input.value; }));
+    wrap.querySelectorAll('[data-manual-rpe]').forEach(input => input.addEventListener('input', () => { const [e,s] = input.dataset.manualRpe.split(':').map(Number); manualDraft[e].sets[s].rpe = input.value; }));
+    wrap.querySelectorAll('[data-manual-add-set]').forEach(btn => btn.addEventListener('click', () => { manualDraft[Number(btn.dataset.manualAddSet)].sets.push({ weight:'', reps:'', rpe:'', notes:'', setType:'normal' }); renderManualDraft(); }));
+    wrap.querySelectorAll('[data-manual-remove-ex]').forEach(btn => btn.addEventListener('click', () => { manualDraft.splice(Number(btn.dataset.manualRemoveEx), 1); if (!manualDraft.length) manualDraft.push({ name:'', sets:[{ weight:'', reps:'', rpe:'', notes:'', setType:'normal' }] }); renderManualDraft(); }));
+  }
+
+  function saveManualWorkout() {
+    const start = parseFlexibleDate($('manualWorkoutDate').value) || new Date();
+    const name = $('manualWorkoutName').value.trim() || 'Manual Workout';
+    const workout = {
+      id: fitId('manual'),
+      source: 'manual',
+      sourceId: '',
+      date: fitDateKey(start),
+      startTime: start.toISOString(),
+      endTime: '',
+      duration: '',
+      name,
+      notes: $('manualWorkoutNotes').value.trim(),
+      gym: state.filterGym,
+      dayType: state.filterDay,
+      exercises: []
+    };
+    manualDraft.forEach(exDraft => {
+      const name = exDraft.name.trim();
+      if (!name) return;
+      const meta = fitExerciseMeta(name);
+      const ex = { id: fitId('mex'), name, normalizedName: fitNormalizeName(name), category: meta.category, muscleGroups: meta.muscleGroups, type: meta.type, sets: [] };
+      exDraft.sets.forEach((s, idx) => {
+        const reps = parseNumber(s.reps) || 0;
+        const weight = parseNumber(s.weight) || 0;
+        if (!reps && !weight) return;
+        ex.sets.push({ id: fitId('mset'), setNumber: idx + 1, weight, weightUnit: state.units, reps, rpe: parseNumber(s.rpe), notes: s.notes || '', setType: s.setType || 'normal', source: 'manual', date: start.toISOString() });
+      });
+      if (ex.sets.length) workout.exercises.push(ex);
+      fitEnsureExerciseInDb(name, meta);
+    });
+    if (!workout.exercises.length) { alert('Add at least one exercise and set.'); return; }
+    state.workouts.push(workout);
+    state.personalRecords = computePersonalRecords(getAllWorkouts());
+    saveState();
+    $('manualWorkoutModal').classList.remove('show');
+    renderAll();
+  }
+
+  function downloadBlob(filename, type, content) {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function exportWorkoutCsv() {
+    const headers = ['title','start_time','end_time','description','exercise_title','set_index','set_type','weight_' + state.units,'reps','distance_km','duration_seconds','rpe','notes'];
+    const lines = [headers.join(',')];
+    getAllWorkouts().forEach(w => (w.exercises || []).forEach(ex => (ex.sets || []).forEach((set, idx) => {
+      const row = [
+        w.name, w.startTime || w.date, w.endTime || '', w.notes || '', ex.name, idx, set.setType || 'normal',
+        fitRound(fitUnitWeight(set.weight || 0, set.weightUnit || state.units, state.units), 3),
+        set.reps || '', set.distanceKm || '', set.durationSeconds || '', set.rpe == null ? '' : set.rpe, set.notes || ''
+      ];
+      lines.push(row.map(csvCell).join(','));
+    })));
+    downloadBlob('fitness-workouts-' + fitDateKey(new Date()) + '.csv', 'text/csv', lines.join('\n'));
+  }
+
+  function csvCell(v) {
+    const s = String(v == null ? '' : v);
+    return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+
+  function exportWorkoutJson() {
+    downloadBlob('fitness-backup-' + fitDateKey(new Date()) + '.json', 'application/json', JSON.stringify({
+      appData: state,
+      workouts: getAllWorkouts(),
+      personalRecords: computePersonalRecords(getAllWorkouts())
+    }, null, 2));
+  }
+
+  function exportWorkoutPdf() {
+    const workouts = getAllWorkouts();
+    const records = computePersonalRecords(workouts);
+    const total = workouts.reduce((a,w) => a + workoutTotals(w).volume, 0);
+    const week = workouts.filter(w => new Date(w.date || w.startTime) >= weekStart(new Date()));
+    const monthStart = new Date(); monthStart.setDate(1); monthStart.setHours(0,0,0,0);
+    const month = workouts.filter(w => new Date(w.date || w.startTime) >= monthStart);
+    const muscles = {};
+    flattenWorkoutSets(workouts).forEach(({ exercise }) => (fitExerciseMeta(exercise.name).muscleGroups || ['other']).forEach(m => muscles[m] = (muscles[m] || 0) + 1));
+    const muscleRows = Object.entries(muscles).sort((a,b) => b[1] - a[1]).slice(0, 8).map(([m,n]) => '<tr><td>' + escape(m) + '</td><td>' + n + ' sets</td></tr>').join('');
+    const html = '<!doctype html><title>Fitness Report</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;padding:28px;color:#111}h1{margin:0 0 6px}.muted{color:#666}.card{border:1px solid #ddd;border-radius:10px;padding:14px;margin:12px 0}table{width:100%;border-collapse:collapse}td,th{border-bottom:1px solid #eee;padding:7px;text-align:left}</style>' +
+      '<h1>Fitness Report</h1><div class="muted">' + fitFormatDate(new Date().toISOString()) + '</div>' +
+      '<div class="card"><strong>Total workouts:</strong> ' + workouts.length + '<br><strong>This week:</strong> ' + week.length + ' workouts<br><strong>This month:</strong> ' + month.length + ' workouts<br><strong>Total volume:</strong> ' + Math.round(total).toLocaleString() + ' ' + state.units + '<br><strong>PRs achieved:</strong> ' + records.feed.length + '<br><strong>Training streak:</strong> ' + trainingStreak(workouts) + ' days</div>' +
+      '<div class="card"><h2>Recent PRs</h2><table><tbody>' + records.feed.slice(0, 20).map(pr => '<tr><td>' + escape(pr.date) + '</td><td>' + escape(pr.exercise) + '</td><td>' + escape(pr.label) + '</td></tr>').join('') + '</tbody></table></div>' +
+      '<div class="card"><h2>Muscle Group Balance</h2><table><tbody>' + (muscleRows || '<tr><td>No muscle group data yet</td><td></td></tr>') + '</tbody></table></div>' +
+      '<div class="card"><h2>Health, Sleep, Nutrition Patterns</h2><p class="muted">Workout correlations are pattern insights only, not medical instructions. Glucose, sleep, and nutrition sections populate when those logs are available in app data.</p></div>' +
+      '<div class="card"><h2>Recent Workouts</h2><table><tbody>' + workouts.slice(-20).reverse().map(w => '<tr><td>' + escape(w.date) + '</td><td>' + escape(w.name) + '</td><td>' + workoutTotals(w).sets + ' sets</td><td>' + Math.round(workoutTotals(w).volume).toLocaleString() + ' ' + state.units + '</td></tr>').join('') + '</tbody></table></div>';
+    const win = window.open('', '_blank');
+    if (!win) { alert('Allow popups to generate the PDF report.'); return; }
+    win.document.write(html);
+    win.document.close();
+    win.focus();
+    win.print();
+  }
+
+  // ============================================================
   // EVENT WIRING
   // ============================================================
+  document.querySelectorAll('.fit-tab').forEach(btn => btn.addEventListener('click', () => setFitPanel(btn.dataset.fitTab)));
+  function applyFitnessHash() {
+    const panel = (window.location.hash || '').replace('#', '').trim();
+    if (panel && document.querySelector('[data-fit-panel="' + panel + '"]')) setFitPanel(panel);
+  }
+  window.addEventListener('hashchange', applyFitnessHash);
+  $('fitQuickLogSet').addEventListener('click', () => setFitPanel('coach'));
+  $('fitQuickImport').addEventListener('click', () => { setFitPanel('hevy'); $('hevyCsvFile').click(); });
+  $('fitQuickAddWorkout').addEventListener('click', openManualWorkoutModal);
+  $('hevyImportBtn').addEventListener('click', () => $('hevyCsvFile').click());
+  $('hevySyncBtn').addEventListener('click', () => $('hevyCsvFile').click());
+  $('hevyCsvFile').addEventListener('change', e => {
+    const file = e.target.files && e.target.files[0];
+    handleHevyFile(file);
+    e.target.value = '';
+  });
+  $('hevyConfirmImport').addEventListener('click', () => syncProviders.hevy.sync());
+  $('hevyClearPreview').addEventListener('click', () => { pendingHevyImport = null; $('hevyFileLabel').value = 'No file selected'; showHevyStatus('Preview cleared.', 0); renderHevyPreview(); });
+  $('hevyExportJson').addEventListener('click', exportWorkoutJson);
+  $('hevyExportCsv').addEventListener('click', exportWorkoutCsv);
+  $('hevyExportPdf').addEventListener('click', exportWorkoutPdf);
+  ['workoutSearch','workoutSourceFilter','workoutRangeFilter'].forEach(id => $(id).addEventListener('input', renderWorkoutHistory));
+  ['exerciseDbSearch','exerciseDbType'].forEach(id => $(id).addEventListener('input', renderExerciseDatabase));
+  $('manualWorkoutBtn').addEventListener('click', openManualWorkoutModal);
+  $('manualAddExercise').addEventListener('click', () => { manualDraft.push({ name: '', sets: [{ weight: '', reps: '', rpe: '', notes: '', setType: 'normal' }] }); renderManualDraft(); });
+  $('manualWorkoutCancel').addEventListener('click', () => $('manualWorkoutModal').classList.remove('show'));
+  $('manualWorkoutSave').addEventListener('click', saveManualWorkout);
+  $('workoutDetailClose').addEventListener('click', () => $('workoutDetailModal').classList.remove('show'));
+  $('exerciseDetailClose').addEventListener('click', () => $('exerciseDetailModal').classList.remove('show'));
+  $('exerciseDetailRange').addEventListener('change', () => { if (activeExerciseDetailName) openExerciseDetail(activeExerciseDetailName); });
+  $('calendarPrev').addEventListener('click', () => { calendarCursor.setMonth(calendarCursor.getMonth() - 1); renderCalendar(); });
+  $('calendarNext').addEventListener('click', () => { calendarCursor.setMonth(calendarCursor.getMonth() + 1); renderCalendar(); });
+  $('analyticsRange').addEventListener('change', renderAnalytics);
+  $('exerciseAddCustom').addEventListener('click', () => {
+    const name = (prompt('Custom exercise name:') || '').trim();
+    if (!name) return;
+    const type = (prompt('Type: compound, isolation, or cardio', 'compound') || 'compound').trim().toLowerCase();
+    const muscles = (prompt('Muscle groups, comma separated:', 'other') || 'other').split(',').map(s => s.trim()).filter(Boolean);
+    fitEnsureExerciseInDb(name, { type: ['compound','isolation','cardio'].includes(type) ? type : 'compound', muscleGroups: muscles, category: muscles[0] || 'other' });
+    saveState(); renderExerciseDatabase();
+  });
+  $('exerciseMergeBtn').addEventListener('click', () => {
+    const keep = (prompt('Canonical exercise name to keep (example: Pull Up):') || '').trim();
+    const merge = (prompt('Duplicate name or alias to merge into "' + keep + '":') || '').trim();
+    if (!keep || !merge) return;
+    const base = fitEnsureExerciseInDb(keep);
+    const otherNorm = fitNormalizeName(merge);
+    base.aliases = Array.from(new Set((base.aliases || []).concat([merge])));
+    (state.exerciseDatabase || []).forEach(e => {
+      if (e !== base && (e.normalizedName === otherNorm || fitNormalizeName(e.name) === otherNorm)) {
+        base.aliases = Array.from(new Set(base.aliases.concat(e.name, e.aliases || [])));
+      }
+    });
+    state.exerciseDatabase = (state.exerciseDatabase || []).filter(e => e === base || (e.normalizedName !== otherNorm && fitNormalizeName(e.name) !== otherNorm));
+    (state.workouts || []).forEach(w => (w.exercises || []).forEach(ex => {
+      if ((ex.normalizedName || fitNormalizeName(ex.name)) === otherNorm) {
+        ex.name = base.name;
+        ex.normalizedName = base.normalizedName;
+        ex.category = base.category;
+        ex.muscleGroups = base.muscleGroups;
+        ex.type = base.type;
+      }
+    }));
+    saveState(); renderAll();
+  });
   // Tap the day pill → opens the rotation editor so you can rename /
   // reorder / add / delete entries (e.g. switch Push/Pull/Legs/Rest to
   // Legs/Arms/Back/Chest). Long-press isn't a thing on web reliably so
@@ -2283,8 +4356,12 @@ img, video, canvas, svg { max-width: 100%; }
     const w = ex.bw ? 0 : (parseFloat($('weightInput').value) || 0);
     if (!ex.bw && w <= 0) { alert('Enter a weight.'); return; }
     const arr = state.logs[ex.id] || [];
-    arr.push({ weight: w, reps: reps, date: new Date().toISOString() });
+    const loggedAt = new Date().toISOString();
+    const coachLog = { id: fitId('coachlog'), exerciseId: ex.id, exerciseName: ex.name, weight: w, reps: reps, weightUnit: state.units, date: loggedAt, source: 'coach' };
+    arr.push({ weight: w, reps: reps, date: loggedAt, source: 'coach', id: coachLog.id });
     state.logs[ex.id] = arr;
+    state.coachLogs.push(coachLog);
+    fitEnsureExerciseInDb(ex.name);
     saveState(); renderAll();
     // Strength changed → composition estimate may shift
     if (typeof wtRender === 'function') wtRender();
@@ -2821,7 +4898,7 @@ img, video, canvas, svg { max-width: 100%; }
     let workoutDays = new Set();
     let totalVolumeInWindow = 0;
     state.exercises.forEach(ex => {
-      const logs = (state.logs[ex.id] || []).slice();
+      const logs = getMergedLogsForExercise(ex.id).slice();
       if (logs.length < 2 || ex.bw) {
         // Still count volume / sessions even for bodyweight + sparse exercises
         logs.forEach(l => {
@@ -3261,6 +5338,7 @@ img, video, canvas, svg { max-width: 100%; }
   // BOOT
   // ============================================================
   renderAll();
+  applyFitnessHash();
   wtRender();
   photosRender();
 

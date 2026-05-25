@@ -592,10 +592,99 @@ body::after {
 }
 .gm-status.gm-status-error { color: var(--danger); }
 
+.fitness-dash {
+  margin-bottom: 22px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.04);
+  box-shadow: 0 12px 38px rgba(0,0,0,0.28);
+}
+.fitness-dash-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.fitness-dash-title {
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 760;
+}
+.fitness-dash-sync {
+  color: var(--success);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.fitness-dash-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.fitness-dash-metric {
+  min-height: 78px;
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  background: rgba(0,0,0,0.22);
+}
+.fitness-dash-label {
+  color: var(--text-tertiary);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.fitness-dash-value {
+  color: var(--text-primary);
+  font-size: 22px;
+  font-weight: 780;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.05;
+}
+.fitness-dash-sub {
+  margin-top: 5px;
+  color: var(--text-tertiary);
+  font-size: 11px;
+  line-height: 1.35;
+}
+.fitness-dash-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.fitness-dash-actions a {
+  flex: 1 1 150px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 750;
+}
+.fitness-dash-actions a:first-child {
+  background: linear-gradient(180deg, #FFFFFF 0%, #E8E5DD 100%);
+  color: #0A0A0B;
+}
+.fitness-dash-actions a:last-child {
+  border: 1px solid rgba(255,255,255,0.10);
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.04);
+}
+
 @media (max-width: 480px) {
   body { padding: max(20px, env(safe-area-inset-top)) 14px 50px; }
   .gm-card { padding: 16px; }
   .gm-progress-num { font-size: 36px; }
+  .fitness-dash-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 </style>
 </head>
@@ -642,6 +731,23 @@ body::after {
       <div class="day-ring-hours">8:00 AM – 12:00 AM</div>
     </div>
   </div>
+
+  <section class="fitness-dash" aria-label="Fitness snapshot">
+    <div class="fitness-dash-head">
+      <div class="fitness-dash-title">Fitness</div>
+      <div class="fitness-dash-sync" id="fitnessDashSync">No Hevy sync</div>
+    </div>
+    <div class="fitness-dash-grid" id="fitnessDashGrid">
+      <div class="fitness-dash-metric"><div class="fitness-dash-label">This week</div><div class="fitness-dash-value">0</div><div class="fitness-dash-sub">workouts</div></div>
+      <div class="fitness-dash-metric"><div class="fitness-dash-label">Volume</div><div class="fitness-dash-value">0</div><div class="fitness-dash-sub">total lifted</div></div>
+      <div class="fitness-dash-metric"><div class="fitness-dash-label">Streak</div><div class="fitness-dash-value">0</div><div class="fitness-dash-sub">training days</div></div>
+      <div class="fitness-dash-metric"><div class="fitness-dash-label">Recent PR</div><div class="fitness-dash-value">—</div><div class="fitness-dash-sub">log or import</div></div>
+    </div>
+    <div class="fitness-dash-actions">
+      <a href="gym.html#hevy">Import Hevy CSV</a>
+      <a href="gym.html#coach">Log Set</a>
+    </div>
+  </section>
 
   <div class="section">
     <div class="section-title">To Do List</div>
@@ -1278,6 +1384,93 @@ body::after {
     });
   }
 
+  // ---------- Fitness dashboard snapshot ----------
+  function fitnessDateKey(d) {
+    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+  }
+  function fitnessNorm(name) {
+    return String(name || '').toLowerCase().replace(/\([^)]*\)/g, ' ').replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+  function fitnessWeekStart(d) {
+    const dt = new Date(d);
+    dt.setHours(0,0,0,0);
+    const day = (dt.getDay() + 6) % 7;
+    dt.setDate(dt.getDate() - day);
+    return dt;
+  }
+  function fitnessLoadState() {
+    try { return JSON.parse(localStorage.getItem('po_coach_v1')) || {}; } catch (e) { return {}; }
+  }
+  function fitnessAllWorkouts() {
+    const state = fitnessLoadState();
+    const workouts = Array.isArray(state.workouts) ? state.workouts.slice() : [];
+    const byDay = {};
+    (state.exercises || []).forEach(ex => {
+      ((state.logs || {})[ex.id] || []).forEach((log, idx) => {
+        const key = String(log.date || '').slice(0, 10);
+        if (!key) return;
+        if (!byDay[key]) byDay[key] = { id: 'coach_' + key, source: 'coach', date: key, startTime: log.date, name: 'Coach log', exercises: [] };
+        let wx = byDay[key].exercises.find(x => x.name === ex.name);
+        if (!wx) { wx = { name: ex.name, normalizedName: fitnessNorm(ex.name), sets: [] }; byDay[key].exercises.push(wx); }
+        wx.sets.push({ setNumber: idx + 1, weight: Number(log.weight) || 0, reps: Number(log.reps) || 0, weightUnit: state.units || 'kg', source: 'coach', date: log.date });
+      });
+    });
+    return workouts.concat(Object.values(byDay)).sort((a,b) => String(a.date || '').localeCompare(String(b.date || '')));
+  }
+  function fitnessVolume(w, unit) {
+    let total = 0;
+    (w.exercises || []).forEach(ex => (ex.sets || []).forEach(set => {
+      total += (Number(set.weight) || 0) * (Number(set.reps) || 0);
+    }));
+    return total;
+  }
+  function fitnessStreak(workouts) {
+    const days = new Set(workouts.map(w => w.date).filter(Boolean));
+    let cursor = new Date();
+    cursor.setHours(0,0,0,0);
+    if (!days.has(fitnessDateKey(cursor))) cursor.setDate(cursor.getDate() - 1);
+    let count = 0;
+    while (days.has(fitnessDateKey(cursor))) {
+      count++;
+      cursor.setDate(cursor.getDate() - 1);
+    }
+    return count;
+  }
+  function fitnessRecentPr(workouts) {
+    const best = {};
+    let recent = null;
+    workouts.forEach(w => (w.exercises || []).forEach(ex => (ex.sets || []).forEach(set => {
+      const norm = ex.normalizedName || fitnessNorm(ex.name);
+      const weight = Number(set.weight) || 0;
+      const reps = Number(set.reps) || 0;
+      const orm = weight && reps ? weight * (1 + reps / 30) : reps;
+      if (!best[norm] || orm > best[norm].value) {
+        best[norm] = { value: orm };
+        recent = { exercise: ex.name, label: weight ? Math.round(weight) + ' x ' + reps : reps + ' reps', date: w.date };
+      }
+    })));
+    return recent;
+  }
+  function renderFitnessDashboard() {
+    const state = fitnessLoadState();
+    const workouts = fitnessAllWorkouts();
+    const start = fitnessWeekStart(new Date());
+    const week = workouts.filter(w => new Date(w.date || w.startTime) >= start);
+    const volume = week.reduce((s, w) => s + fitnessVolume(w, state.units || 'kg'), 0);
+    const pr = fitnessRecentPr(workouts);
+    const grid = document.getElementById('fitnessDashGrid');
+    if (grid) {
+      grid.innerHTML =
+        '<div class="fitness-dash-metric"><div class="fitness-dash-label">This week</div><div class="fitness-dash-value">' + week.length + '</div><div class="fitness-dash-sub">workouts</div></div>' +
+        '<div class="fitness-dash-metric"><div class="fitness-dash-label">Volume</div><div class="fitness-dash-value">' + Math.round(volume).toLocaleString() + '</div><div class="fitness-dash-sub">' + (state.units || 'kg') + ' total</div></div>' +
+        '<div class="fitness-dash-metric"><div class="fitness-dash-label">Streak</div><div class="fitness-dash-value">' + fitnessStreak(workouts) + '</div><div class="fitness-dash-sub">training days</div></div>' +
+        '<div class="fitness-dash-metric"><div class="fitness-dash-label">Recent PR</div><div class="fitness-dash-value">' + (pr ? pr.exercise : '—') + '</div><div class="fitness-dash-sub">' + (pr ? pr.label : 'log or import') + '</div></div>';
+    }
+    const sync = document.getElementById('fitnessDashSync');
+    const meta = state.hevySyncMetadata || {};
+    if (sync) sync.textContent = meta.lastSyncDate ? 'Hevy synced ' + String(meta.lastSyncDate).slice(5, 10) : 'No Hevy sync';
+  }
+
   makeAddHandlers(
     document.getElementById('goalInput'),
     document.getElementById('goalAddBtn'),
@@ -1301,13 +1494,14 @@ body::after {
   loadToday();
   loadTomorrow();
   renderStreak();
+  renderFitnessDashboard();
   updateDayRing();
   setInterval(updateDayRing, 60 * 1000);
   startTicker();
 
   // Re-render when storage changes from another tab (or our bridged parent).
   window.addEventListener('storage', () => {
-    loadToday(); loadTomorrow(); renderStreak();
+    loadToday(); loadTomorrow(); renderStreak(); renderFitnessDashboard();
   });
 })();
 </script>
